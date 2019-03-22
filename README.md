@@ -53,12 +53,14 @@ action "PHPCS Code Review" {
 
 `USER_GITHUB_TOKEN`: [GitHub token](https://github.com/settings/tokens), that will be used to post review comments on opened pull requests if any issue is found during the code review. 
 
-1. It is recommended to create this token from a [bot user account](https://stackoverflow.com/a/29177936/4108721).
+1. It is recommended to create this token from a [bot user account](https://stackoverflow.com/a/29177936/4108721). In a large team, if you use your human account token, you may get flooded with unncessary Github notifications.
 2. Permissions required for this token differ according to which type of repo this workflow has been setup for.
-    1. Private Repo: Complete `repo` as well as `write:discussion` permission.
-    2. Public Repo: Only `public_repo` permission.
+    1. Private Repo: Complete `repo` as well as `write:discussion` permission. [TODO: Add screenshot]
+    2. Public Repo: Only `public_repo` permission. [TODO: Add screenshot]
 
 ## Available Standards
+
+You can pass more than one standard at a time by comma separated value. By default, `WordPress-Core,WordPress-Docs` value is passed.
 
 * MySource
 * PEAR
@@ -71,8 +73,8 @@ action "PHPCS Code Review" {
 * PSR2
 * Squiz
 * WordPress
-* WordPress-Core
-* WordPress-Docs
+* WordPress-Core _(default)_
+* WordPress-Docs _(default)_
 * WordPress-Extra
 * WordPress-VIP
 * WordPress-VIP-Go
