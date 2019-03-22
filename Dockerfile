@@ -12,6 +12,7 @@ echo "tzdata tzdata/Zones/Asia select Kolkata" | debconf-set-selections
 RUN set -eux; \
 	apt-get update; \
 	DEBIAN_FRONTEND=noninteractive apt-get install -y \
+	cowsay \
 	git \
 	gosu \
 	php7.2-cli \

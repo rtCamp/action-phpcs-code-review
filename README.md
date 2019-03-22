@@ -17,18 +17,18 @@ This action is a part of [GitHub action library](https://github.com/rtCamp/githu
 
 > Note: To use this GitHub Action, you must have access to GitHub Actions. GitHub Actions are currently only available in public beta (you must [apply for access](https://github.com/features/actions)).
 
-* If `args` are defined, the standards mentioned in the args will will be respected. See [available standards](#available-standards) for the list of standards available in this action.
+* This action by default respects standards specified in [phpcs.xml](https://github.com/rtCamp/github-actions-wordpress-skeleton/blob/master/phpcs.xml) file at the root of your repository.
+
+* If `phpcs.xml` is not present, and `args` are defined, the standards mentioned in the args will will be respected. If both `args` are defined and phpcs.xml exists, then `phpcs.xml` will be used. See [available standards](#available-standards) for the list of standards available in this action.
 ```
 action "PHPCS Inspections" {
-  uses = "rtCamp/action-vip-go-ci@master"
+  uses = "rtCamp/action-phpcs-code-review@master"
   secrets = ["USER_GITHUB_TOKEN"]
-  args = ["PHPCompatibilityWP,Squiz"]
+  args = ["WordPress-VIP-Go"]
 }
 ```
 
-* If no `args` are defined this action by default respects standards specified in [phpcs.xml](https://github.com/rtCamp/github-actions-wordpress-skeleton/blob/master/phpcs.xml) file at the root of your repository.
-
-* If no `phpcs.xml` file is found in the root of the repository then by default inspection is carried out using: `WordPress-Core and WordPress-Docs` standards.
+* If no `phpcs.xml` file is found in the root of the repository then by default inspection is carried out using: `WordPress, WordPress-Core and WordPress-Docs` standards.
 
 Here is an example setup of this action:
 
@@ -53,7 +53,7 @@ action "PHPCS Code Review" {
 
 ## Environment Variables
 
-`USER_GITHUB_TOKEN`: [GitHub token](https://github.com/settings/tokens), that will be used to post review comments on opened pull requests if any issue is found during the code review. 
+`USER_GITHUB_TOKEN`: [GitHub token](https://github.com/settings/tokens), that will be used to post review comments on opened pull requests if any issue is found during the code review.
 
 1. It is recommended to create this token from a [bot user account](https://stackoverflow.com/a/29177936/4108721). In a large team, if you use your human account token, you may get flooded with unncessary Github notifications.
 2. Permissions required for this token differ according to which type of repo this workflow has been setup for.
@@ -74,7 +74,7 @@ You can pass more than one standard at a time by comma separated value. By defau
 * PSR12
 * PSR2
 * Squiz
-* WordPress
+* WordPress _(default)_
 * WordPress-Core _(default)_
 * WordPress-Docs _(default)_
 * WordPress-Extra
