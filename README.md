@@ -4,6 +4,11 @@ A [GitHub Action](https://github.com/features/actions) for running code inspecti
 
 You can use this action to work on latest commits pushed to Pull-Requests on GitHub, looking for problems in the code using PHP lint and PHPCS, and posting back to GitHub comments and reviews, detailing the issues found.
 
+**Note:**
+1. This action runs only for PRs.
+2. This action doesn't run on code in the repository added before this action.
+3. This action doesn't run for code committed directly to a branch.
+
 This action is a part of [GitHub action library](https://github.com/rtCamp/github-actions-library/) created by [rtCamp](https://github.com/rtCamp/).
 
 ## Installation
