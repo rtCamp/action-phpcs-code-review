@@ -11,7 +11,7 @@ You can use this action to review pull requests using PHPCS on GitHub. It will t
 2. This action doesn't run on code in the repository added before this action.
 3. This action doesn't run for code committed directly to a branch.
 
-This action is a part of [GitHub action library](https://github.com/rtCamp/github-actions-library/) created by [rtCamp](https://github.com/rtCamp/).
+This action is a part of [GitHub Action library](https://github.com/rtCamp/github-actions-library/) created by [rtCamp](https://github.com/rtCamp/).
 
 ## Installation
 
