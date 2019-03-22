@@ -4,15 +4,29 @@ A [GitHub Action](https://github.com/features/actions) for running PHPCS code re
 
 You can use this action to work on latest commits pushed to Pull-Requests on GitHub, looking for problems in the code using PHP lint and PHPCS, and posting back to GitHub comments and reviews, detailing the issues found.
 
-* This action by default respects standards specified in [phpcs.xml](https://github.com/rtCamp/github-actions-wordpress-skeleton/blob/master/phpcs.xml) file. 
-
-* If no `phpcs.xml` file is found in the root of the repository then by default inspection is carried out using: `WordPress-Core and WordPress-Docs` standards.
+**Note:**
+1. This action runs only for PRs.
+2. This action doesn't run on code in the repository added before this action.
+3. This action doesn't run for code committed directly to a branch.
 
 This action is a part of [GitHub action library](https://github.com/rtCamp/github-actions-library/) created by [rtCamp](https://github.com/rtCamp/).
 
 ## Installation
 
 > Note: To use this GitHub Action, you must have access to GitHub Actions. GitHub Actions are currently only available in public beta (you must [apply for access](https://github.com/features/actions)).
+
+* If `args` are defined, the standards mentioned in the args will will be respected. See [available standards](#available-standards) for the list of standards available in this action.
+```
+action "PHPCS Inspections" {
+  uses = "rtCamp/action-vip-go-ci@master"
+  secrets = ["USER_GITHUB_TOKEN"]
+  args = ["PHPCompatibilityWP,Squiz"]
+}
+```
+
+* If no `args` are defined this action by default respects standards specified in [phpcs.xml](https://github.com/rtCamp/github-actions-wordpress-skeleton/blob/master/phpcs.xml) file at the root of your repository.
+
+* If no `phpcs.xml` file is found in the root of the repository then by default inspection is carried out using: `WordPress-Core and WordPress-Docs` standards.
 
 Here is an example setup of this action:
 
@@ -39,10 +53,33 @@ action "PHPCS Code Review" {
 
 `USER_GITHUB_TOKEN`: [GitHub token](https://github.com/settings/tokens), that will be used to post review comments on opened pull requests if any issue is found during the code review. 
 
-1. It is recommended to create this token from a bot user account.
+1. It is recommended to create this token from a [bot user account](https://stackoverflow.com/a/29177936/4108721). In a large team, if you use your human account token, you may get flooded with unncessary Github notifications.
 2. Permissions required for this token differ according to which type of repo this workflow has been setup for.
-    1. Private Repo: Complete `repo` as well as `write:discussion` permission.
-    2. Public Repo: Only `public_repo` permission.
+    1. Private Repo: Complete `repo` as well as `write:discussion` permission. [TODO: Add screenshot]
+    2. Public Repo: Only `public_repo` permission. [TODO: Add screenshot]
+
+## Available Standards
+
+You can pass more than one standard at a time by comma separated value. By default, `WordPress-Core,WordPress-Docs` value is passed.
+
+* MySource
+* PEAR
+* PHPCompatibility
+* PHPCompatibilityParagonieRandomCompat
+* PHPCompatibilityParagonieSodiumCompat
+* PHPCompatibilityWP
+* PSR1
+* PSR12
+* PSR2
+* Squiz
+* WordPress
+* WordPress-Core _(default)_
+* WordPress-Docs _(default)_
+* WordPress-Extra
+* WordPress-VIP
+* WordPress-VIP-Go
+* WordPressVIPMinimum
+* Zend
 
 ## License
 
