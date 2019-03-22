@@ -1,6 +1,6 @@
-# PHPCS Inspections - GitHub Action
+# PHPCS Code Review - GitHub Action
 
-A [GitHub Action](https://github.com/features/actions) for running code inspections. It is based on https://github.com/Automattic/vip-go-ci/
+A [GitHub Action](https://github.com/features/actions) for running PHPCS code review. It is based on https://github.com/Automattic/vip-go-ci/
 
 You can use this action to work on latest commits pushed to Pull-Requests on GitHub, looking for problems in the code using PHP lint and PHPCS, and posting back to GitHub comments and reviews, detailing the issues found.
 
@@ -22,12 +22,12 @@ Here is an example setup of this action:
 [Read here](#environment-variables) for more info on how to setup this variable.
 
 ```bash
-workflow "Run Inspections" {
-  resolves = ["PHPCS Inspections"]
+workflow "Run Code Review" {
+  resolves = ["PHPCS Code Review"]
   on = "pull_request"
 }
 
-action "PHPCS Inspections" {
+action "PHPCS Code Review" {
   uses = "rtCamp/action-vip-go-ci@master"
   secrets = ["USER_GITHUB_TOKEN"]
 }
@@ -37,7 +37,7 @@ action "PHPCS Inspections" {
 
 ## Environment Variables
 
-`USER_GITHUB_TOKEN`: [GitHub token](https://github.com/settings/tokens), that will be used to post review comments on opened pull requests if any issue is found during the inspections run. 
+`USER_GITHUB_TOKEN`: [GitHub token](https://github.com/settings/tokens), that will be used to post review comments on opened pull requests if any issue is found during the code review. 
 
 1. It is recommended to create this token from a bot user account.
 2. Permissions required for this token differ according to which type of repo this workflow has been setup for.
