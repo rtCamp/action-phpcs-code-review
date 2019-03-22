@@ -2,7 +2,9 @@
 
 A [GitHub Action](https://github.com/features/actions) for running PHPCS code review. It is based on https://github.com/Automattic/vip-go-ci/
 
-You can use this action to work on latest commits pushed to Pull-Requests on GitHub, looking for problems in the code using PHP lint and PHPCS, and posting back to GitHub comments and reviews, detailing the issues found.
+You can use this action to review pull requests using PHPCS on GitHub. It will then flag all the problems it found on the pull request by creating a [pull request review](https://help.github.com/en/articles/about-pull-request-reviews).
+
+![PHPCS Code Review Demo](https://user-images.githubusercontent.com/8456197/54820322-c55cb900-4cc4-11e9-8ba7-7ed2b2f3c189.png)
 
 **Note:**
 1. This action runs only for PRs.
