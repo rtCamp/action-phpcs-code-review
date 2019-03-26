@@ -85,7 +85,9 @@ Here is a sample [phpcs.xml](https://github.com/rtCamp/github-actions-wordpress-
 **Automated Code Review in action**
 ![PHPCS Code Review Demo](https://user-images.githubusercontent.com/8456197/54820322-c55cb900-4cc4-11e9-8ba7-7ed2b2f3c189.png)
 
-### Limitations
+## Limitations
+
+Please note...
 
 1. This action runs only for PRs. It even runs on new commits pushed after a PR is created.
 2. This action doesn't run on code in the repository added before this action.
