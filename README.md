@@ -34,12 +34,6 @@ Now, next time you create a pull request or commit on an existing pull request, 
 
 By default, pull request will be reviwed using WordPress coding and documentation standards. You can change the default by passing different [PHPCS Coding Standard(s)](#phpcs-coding-standards) in line `args = ["WordPress-Core,WordPress-Docs"]`.
 
-### Limitations
-
-1. This action runs only for PRs. It even runs on new commits pushed after a PR is created.
-2. This action doesn't run on code in the repository added before this action.
-3. This action doesn't run for code committed directly to a branch. We highly recommend that you disable direct commits to your main/master branch.
-
 ## GitHub Token Creation
 
 You can create [GitHub Token from here](https://github.com/settings/tokens).
@@ -78,7 +72,7 @@ By default, `WordPress-Core,WordPress-Docs` value is passed.
 * WordPressVIPMinimum
 * Zend
 
-**Custom Sniff**
+### Custom Sniffs
 
 If your git repo have a file named `phpcs.xml` in the root of the repository, then that will take precedence. In that case, value passed to args such as `args = ["WordPress-Core,WordPress-Docs"]` will be ignored.
 
@@ -86,16 +80,16 @@ If your git repo doesn't have `phpcs.xml` and you do not specify `args` in `main
 
 Here is a sample [phpcs.xml](https://github.com/rtCamp/github-actions-wordpress-skeleton/blob/master/phpcs.xml) you can use in case you want to use custom sniffs.
 
-## Screenshots
+## Screenshot
 
 **Automated Code Review in action**
 ![PHPCS Code Review Demo](https://user-images.githubusercontent.com/8456197/54820322-c55cb900-4cc4-11e9-8ba7-7ed2b2f3c189.png)
 
-**GitHub Token Permission for Public Repo**
-![GitHub Token Permission for Public Repo](https://user-images.githubusercontent.com/4115/54978322-01926100-4fc6-11e9-8da5-1e088fa52b34.png)
+### Limitations
 
-**GitHub Token Permission for Private Repo**
-![GitHub Token Permission for Private Repo](https://user-images.githubusercontent.com/4115/54978180-86c94600-4fc5-11e9-846e-7d3fd1dfb7e0.png)
+1. This action runs only for PRs. It even runs on new commits pushed after a PR is created.
+2. This action doesn't run on code in the repository added before this action.
+3. This action doesn't run for code committed directly to a branch. We highly recommend that you disable direct commits to your main/master branch.
 
 ## License
 
