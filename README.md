@@ -28,7 +28,7 @@ action "PHPCS Code Review" {
 }
 ```
 
-3. Define `GH_BOT_TOKEN` using [GitHub Action's Secret](https://developer.github.com/actions/creating-workflows/storing-secrets). See (GitHub Token Creation)[#github-token-creation] section for more details.
+3. Define `GH_BOT_TOKEN` using [GitHub Action's Secret](https://developer.github.com/actions/creating-workflows/storing-secrets). See [GitHub Token Creation](#github-token-creation) section for more details.
 
 Now, next time you create a pull request or commit on an existing pull request, this action will run.
 
