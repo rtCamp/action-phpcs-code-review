@@ -24,7 +24,7 @@ workflow "Run Code Review" {
 action "PHPCS Code Review" {
   uses = "rtCamp/action-phpcs-code-review@master"
   secrets = ["GH_BOT_TOKEN"]
-  args = ["WordPress-Core,WordPress-Docs"]
+  args = ["WordPress,WordPress-Core,WordPress-Docs"]
 }
 ```
 
@@ -63,7 +63,7 @@ By default, `WordPress-Core,WordPress-Docs` value is passed.
 * PSR12
 * PSR2
 * Squiz
-* WordPress
+* WordPress _(default)_
 * WordPress-Core _(default)_
 * WordPress-Docs _(default)_
 * WordPress-Extra
@@ -74,7 +74,7 @@ By default, `WordPress-Core,WordPress-Docs` value is passed.
 
 ### Custom Sniffs
 
-If your git repo have a file named `phpcs.xml` in the root of the repository, then that will take precedence. In that case, value passed to args such as `args = ["WordPress-Core,WordPress-Docs"]` will be ignored.
+If your git repo have a file named `phpcs.xml` in the root of the repository, then that will take precedence. In that case, value passed to args such as `args = ["WordPress,WordPress-Core,WordPress-Docs"]` will be ignored.
 
 If your git repo doesn't have `phpcs.xml` and you do not specify `args` in `main.workflow` PHPCS action, then this actions will fallback to default.
 

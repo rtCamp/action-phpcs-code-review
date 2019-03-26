@@ -24,11 +24,13 @@ if [[ -f "$RTBOT_WORKSPACE/phpcs.xml" ]]; then
 elif [[ "$VIP" = "true" ]]; then
     phpcs_standard="--phpcs-standard=WordPress-VIP-Go --phpcs-severity=1"
 else
-    phpcs_standard="--phpcs-standard=WordPress-Core,WordPress-Docs"
+    if [[ -n "$1" ]]; then
+      phpcs_standard="--phpcs-standard=$1"
+    else
+      phpcs_standard="--phpcs-standard=WordPress,WordPress-Core,WordPress-Docs"
+    fi
 fi
 
-[[ -n "$1" ]] && user_phpcs_standard="--phpcs-standard=$1"
-# user_phpcs_standard contains
-phpcs_standard="${user_phpcs_standard:-$phpcs_standard}"
+cowsay "Running with the flag $phpcs_standard"
 
 gosu rtbot bash -c "/home/rtbot/vip-go-ci-tools/vip-go-ci/vip-go-ci.php --repo-owner=$GITHUB_REPO_OWNER --repo-name=$GITHUB_REPO_NAME --commit=$GITHUB_SHA --token=$GH_BOT_TOKEN --phpcs-path=/home/rtbot/vip-go-ci-tools/phpcs/bin/phpcs --local-git-repo=/home/rtbot/github-workspace --phpcs=true $phpcs_standard --lint=true"
