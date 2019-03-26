@@ -83,7 +83,9 @@ Here is a sample [phpcs.xml](https://github.com/rtCamp/github-actions-wordpress-
 ## Screenshot
 
 **Automated Code Review in action**
-![PHPCS Code Review Demo](https://user-images.githubusercontent.com/8456197/54820322-c55cb900-4cc4-11e9-8ba7-7ed2b2f3c189.png)
+
+<img width="770" alt="Automated PHPCS Code Review" src="https://user-images.githubusercontent.com/4115/55004924-20621900-5001-11e9-9363-fd6f9a99170e.png">
+
 
 ## Limitations
 
