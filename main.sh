@@ -2,7 +2,6 @@
 
 stars=$(printf "%-30s" "*")
 
-export CI_SCRIPT_OPTIONS="ci_script_options"
 export RTBOT_WORKSPACE="/home/rtbot/github-workspace"
 hosts_file="$GITHUB_WORKSPACE/.github/hosts.yml"
 
@@ -14,15 +13,9 @@ GITHUB_REPO_NAME=${GITHUB_REPOSITORY##*/}
 GITHUB_REPO_OWNER=${GITHUB_REPOSITORY%%/*}
 
 phpcs_standard=''
-VIP="false"
-if [[ -f "$hosts_file" ]]; then
-    VIP=$(cat "$hosts_file" | shyaml get-value "$CI_SCRIPT_OPTIONS.vip" | tr '[:upper:]' '[:lower:]')
-fi
 
 if [[ -f "$RTBOT_WORKSPACE/phpcs.xml" ]]; then
     phpcs_standard="--phpcs-standard=$RTBOT_WORKSPACE/phpcs.xml"
-elif [[ "$VIP" = "true" ]]; then
-    phpcs_standard="--phpcs-standard=WordPress-VIP-Go --phpcs-severity=1"
 else
     if [[ -n "$1" ]]; then
       phpcs_standard="--phpcs-standard=$1"
