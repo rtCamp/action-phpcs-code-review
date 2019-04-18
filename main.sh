@@ -14,9 +14,23 @@ GITHUB_REPO_OWNER=${GITHUB_REPOSITORY%%/*}
 
 phpcs_standard=''
 
-if [[ -f "$RTBOT_WORKSPACE/phpcs.xml" ]]; then
-    phpcs_standard="--phpcs-standard=$RTBOT_WORKSPACE/phpcs.xml"
-else
+defaultFiles=(
+  '.phpcs.xml'
+  'phpcs.xml'
+  '.phpcs.xml.dist'
+  'phpcs.xml.dist'
+)
+
+phpcsfilefound=1
+
+for phpcsfile in "${defaultFiles[@]}"; do
+  if [[ -f "$RTBOT_WORKSPACE/$phpcsfile" ]]; then
+      phpcs_standard="--phpcs-standard=$RTBOT_WORKSPACE/$phpcsfile"
+      phpcsfilefound=0
+  fi
+done
+
+if [[ $phpcsfilefound -ne 0 ]]; then
     if [[ -n "$1" ]]; then
       phpcs_standard="--phpcs-standard=$1"
     else
