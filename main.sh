@@ -20,7 +20,7 @@ else
     if [[ -n "$1" ]]; then
       phpcs_standard="--phpcs-standard=$1"
     else
-      phpcs_standard="--phpcs-standard=WordPress,WordPress-Core,WordPress-Docs"
+      phpcs_standard="--phpcs-standard=WordPress"
     fi
 fi
 
