@@ -12,6 +12,10 @@ chown -R rtbot:rtbot /home/rtbot/
 GITHUB_REPO_NAME=${GITHUB_REPOSITORY##*/}
 GITHUB_REPO_OWNER=${GITHUB_REPOSITORY%%/*}
 
+if [[ -n "$VAULT_GITHUB_TOKEN" ]] || [[ -n "$VAULT_TOKEN" ]]; then
+  export GH_BOT_TOKEN=$(vault read -field=token secret/rtBot-token)
+fi
+
 phpcs_standard=''
 
 defaultFiles=(
