@@ -12,20 +12,26 @@ Please note that, this action performs pull request review *only*. If you have a
 
 ## Usage
 
-1. Create a `.github/main.workflow` in your GitHub repo, if one doesn't exist already.
-2. Add the following code to the `main.workflow` file.
+1. Create a `.github/workflows/phpcs.yml` in your GitHub repo, if one doesn't exist already.
+2. Add the following code to the `phpcs.yml` file.
 
-```bash
-workflow "Run Code Review" {
-  resolves = ["PHPCS Code Review"]
-  on = "pull_request"
-}
+```yaml
+name: Run PHPCS on pull requests
 
-action "PHPCS Code Review" {
-  uses = "rtCamp/action-phpcs-code-review@master"
-  secrets = ["GH_BOT_TOKEN"]
-  args = ["WordPress,WordPress-Core,WordPress-Docs"]
-}
+on: pull_request
+
+jobs:
+  phpcs:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    - uses: rtCamp/action-phpcs-code-review@master
+      env:
+        GH_BOT_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
+      with:
+        args: "WordPress,WordPress-Core,WordPress-Docs"
 ```
 
 3. Define `GH_BOT_TOKEN` using [GitHub Action's Secret](https://developer.github.com/actions/creating-workflows/storing-secrets). See [GitHub Token Creation](#github-token-creation) section for more details.
