@@ -1,5 +1,19 @@
 #!/usr/bin/env bash
 
+cd $GITHUB_WORKSPACE
+
+# Checkout to the latest commit of the PR. As the vip-go-ci runner needs the commit id from PR.
+# If ref matches *refs/pull*, then an additional PR commit has been added by GH actions, and needs to be skipped.
+if [[ "$GITHUB_REF" == *"refs/pull"* ]]; then
+  COMMIT_ID=$(git log -n 1 --skip 1 --pretty=format:"%H")
+  git checkout -b pr "$COMMIT_ID"
+else
+  COMMIT_ID="$GITHUB_SHA"
+fi
+
+echo "COMMIT ID: $COMMIT_ID"
+
+
 stars=$(printf "%-30s" "*")
 
 export RTBOT_WORKSPACE="/home/rtbot/github-workspace"
