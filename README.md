@@ -44,7 +44,8 @@ By default, pull request will be reviwed using WordPress coding and documentatio
 
 You can create [GitHub Token from here](https://github.com/settings/tokens).
 
-It is recommended that you create this token from a [bot user account](https://stackoverflow.com/a/29177936/4108721). In a large team, if you use your human account token, you may get flooded with unncessary Github notifications.
+It is necessary that you create this token from a [bot user account](https://stackoverflow.com/a/29177936/4108721). Please note that the bot account should have access to the repo in which action is being run, in case it is a private repo. It is compulsory to use a bot account because in GitHub it is forbidden to request changes on your own Pull Request by your own user.
+Additional benefit of using a bot account is that in a large team, if you use your human account token, you may get flooded with unncessary Github notifications.
 
 Permissions required for this token differ according to which type of repo this workflow has been setup for.
 
