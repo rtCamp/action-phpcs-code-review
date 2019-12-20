@@ -2,6 +2,9 @@ This action is a part of [GitHub Actions Library](https://github.com/rtCamp/gith
 
 # PHPCS Code Review - GitHub Action
 
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+
+
 A [GitHub Action](https://github.com/features/actions) to perform automated [pull request review](https://help.github.com/en/articles/about-pull-request-reviews). It is based on https://github.com/Automattic/vip-go-ci/ but can be used for any WordPress or even PHP projects.
 
 The code review is performed using [PHPCS](https://github.com/squizlabs/PHP_CodeSniffer).
