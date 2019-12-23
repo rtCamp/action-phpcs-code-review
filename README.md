@@ -27,7 +27,9 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
     - uses: rtCamp/action-phpcs-code-review@master
       env:
         GH_BOT_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
