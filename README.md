@@ -30,7 +30,7 @@ jobs:
     - uses: actions/checkout@v2
       with:
         ref: ${{ github.event.pull_request.head.sha }}
-    - uses: rtCamp/action-phpcs-code-review@master
+    - uses: rtCamp/action-phpcs-code-review@v2.0.0
       env:
         GH_BOT_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
       with:
