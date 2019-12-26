@@ -15,6 +15,7 @@ RUN set -eux; \
 	cowsay \
 	git \
 	gosu \
+	jq \
 	php7.2-cli \
 	php7.2-curl \
 	php-xml \
