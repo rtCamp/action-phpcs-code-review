@@ -6,6 +6,11 @@ COMMIT_ID=$(cat $GITHUB_EVENT_PATH | jq -r '.pull_request.head.sha')
 
 echo "COMMIT ID: $COMMIT_ID"
 
+PR_BODY=$(cat "$GITHUB_EVENT_PATH" | jq -r .pull_request.body)
+if [[ "$PR_BODY" == *"[do-not-scan]"* ]]; then
+  echo "[do-not-scan] found in PR description. Skipping PHPCS scan."
+  exit 0
+fi
 
 stars=$(printf "%-30s" "*")
 

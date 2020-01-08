@@ -41,6 +41,8 @@ Now, next time you create a pull request or commit on an existing pull request, 
 
 By default, pull request will be reviwed using WordPress coding and documentation standards. You can change the default by passing different [PHPCS Coding Standard(s)](#phpcs-coding-standards) in line `args = ["WordPress-Core,WordPress-Docs"]`.
 
+4. In case you want to skip PHPCS scanning in any pull request, add `[do-not-scan]` in the PR description. You can add it anywhere in the description and it will skip the action run for that pull request.
+
 ---
 
 Side note: in the usage example, we have used `docker://rtcamp/action-phpcs-code-review:v2.0.0`, which is the docker image set up with automated builds on this repo. It will always have the latest code of this repo. Instead of using docker image you can also use the repo url in it: `rtCamp/action-phpcs-code-review@v2.0.0`. The disadvantage using the repo url is that GitHub actions now builds the docker image from url every time action is executed (does not cache the docker image after first run _by default_ as it used to do in beta. You need to cache them seprately). That consumes a fairly good amount of time in action run. Leading to a longer running job as well as more billing (if used in private repo).
