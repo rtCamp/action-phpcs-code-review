@@ -2,17 +2,15 @@
 
 cd $GITHUB_WORKSPACE
 
-# Checkout to the latest commit of the PR. As the vip-go-ci runner needs the commit id from PR.
-# If ref matches *refs/pull*, then an additional PR commit has been added by GH actions, and needs to be skipped.
-if [[ "$GITHUB_REF" == *"refs/pull"* ]]; then
-  COMMIT_ID=$(git log -n 1 --skip 1 --pretty=format:"%H")
-  git checkout -b pr "$COMMIT_ID"
-else
-  COMMIT_ID="$GITHUB_SHA"
-fi
+COMMIT_ID=$(cat $GITHUB_EVENT_PATH | jq -r '.pull_request.head.sha')
 
 echo "COMMIT ID: $COMMIT_ID"
 
+PR_BODY=$(cat "$GITHUB_EVENT_PATH" | jq -r .pull_request.body)
+if [[ "$PR_BODY" == *"[do-not-scan]"* ]]; then
+  echo "[do-not-scan] found in PR description. Skipping PHPCS scan."
+  exit 0
+fi
 
 stars=$(printf "%-30s" "*")
 
