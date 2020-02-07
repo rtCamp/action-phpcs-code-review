@@ -1,8 +1,8 @@
 # ubuntu:latest at 2019-02-12T19:22:56IST
 FROM ubuntu@sha256:7a47ccc3bbe8a451b500d2b53104868b46d60ee8f5b35a24b41a86077c650210
 
-LABEL "com.github.actions.icon"="code"
-LABEL "com.github.actions.color"="purple"
+LABEL "com.github.actions.icon"="check-circle"
+LABEL "com.github.actions.color"="green"
 LABEL "com.github.actions.name"="PHPCS Code Review"
 LABEL "com.github.actions.description"="This will run phpcs on PRs"
 
