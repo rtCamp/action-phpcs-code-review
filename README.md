@@ -61,6 +61,12 @@ Repo Type | Permissions Required                                | Screenshots
 Public    | Under `Repo` section, only `public_repo` permission | [Screenshot Public Repo](https://user-images.githubusercontent.com/4115/54978322-01926100-4fc6-11e9-8da5-1e088fa52b34.png)
 Private   | Complete `repo` and `write:discussion` permissions  | [Screenshot Private Repo](https://user-images.githubusercontent.com/4115/54978180-86c94600-4fc5-11e9-846e-7d3fd1dfb7e0.png)
 
+## Environment Variables
+
+Variable       | Default | Possible  Values            | Purpose
+---------------|---------|-----------------------------|----------------------------------------------------
+`SKIP_FOLDERS` | -       | `tests`,`tests,.github` (Any other comma seprated top level directories in the repo)     | If any specific folders should be ignored when scanning, then a comma seprated list of values should be added to this env variable.
+
 ## PHPCS Coding Standards
 
 Below is list of PHPCS sniffs available at runtime. You can pass more than one standard at a time by comma separated value.
