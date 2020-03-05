@@ -17,6 +17,17 @@ stars=$(printf "%-30s" "*")
 export RTBOT_WORKSPACE="/home/rtbot/github-workspace"
 hosts_file="$GITHUB_WORKSPACE/.github/hosts.yml"
 
+# Delete all the folders to be skipped to ignore them from being scanned.
+if [[ -n "$SKIP_FOLDERS" ]]; then
+
+  folders=(${SKIP_FOLDERS//,/ })
+
+  for folder in ${folders[@]}; do
+    path_of_folder="$GITHUB_WORKSPACE/$folder"
+    [[ -d "$path_of_folder" ]] && rm -rf $path_of_folder
+  done
+fi
+
 rsync -a "$GITHUB_WORKSPACE/" "$RTBOT_WORKSPACE"
 rsync -a /root/vip-go-ci-tools/ /home/rtbot/vip-go-ci-tools
 chown -R rtbot:rtbot /home/rtbot/
