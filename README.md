@@ -36,7 +36,7 @@ jobs:
         GH_BOT_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
         SKIP_FOLDERS: "tests,.github"
       with:
-        args: WordPress,WordPress-Core,WordPress-Docs
+        args: "WordPress,WordPress-Core,WordPress-Docs"
 ```
 
 3. Define `GH_BOT_TOKEN` using [GitHub Action's Secret](https://developer.github.com/actions/creating-workflows/storing-secrets). See [GitHub Token Creation](#github-token-creation) section for more details.
