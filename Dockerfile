@@ -1,5 +1,5 @@
-# ubuntu:latest at 2019-02-12T19:22:56IST
-FROM ubuntu@sha256:7a47ccc3bbe8a451b500d2b53104868b46d60ee8f5b35a24b41a86077c650210
+# ubuntu:latest at 2020-05-12T09:35:28IST
+FROM ubuntu@sha256:3235326357dfb65f1781dbc4df3b834546d8bf914e82cce58e6e6b676e23ce8f
 
 LABEL "com.github.actions.icon"="check-circle"
 LABEL "com.github.actions.color"="green"
@@ -11,13 +11,15 @@ echo "tzdata tzdata/Zones/Asia select Kolkata" | debconf-set-selections
 
 RUN set -eux; \
 	apt-get update; \
+	apt install software-properties-common -y && \
+	add-apt-repository ppa:ondrej/php && \
 	DEBIAN_FRONTEND=noninteractive apt-get install -y \
 	cowsay \
 	git \
 	gosu \
 	jq \
-	php7.2-cli \
-	php7.2-curl \
+	php7.4-cli \
+	php7.4-curl \
 	php-xml \
 	python \
 	python-pip \
