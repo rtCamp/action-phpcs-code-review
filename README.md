@@ -17,13 +17,11 @@ Please note that, this action performs pull request review *only*. If you have a
 2. Add the following code to the `phpcs.yml` file.
 
 ```yaml
-name: Run PHPCS on pull requests
-
 on: pull_request
 
 name: Inspections
 jobs:
-  phpcs:
+  runPHPCSInspection:
     name: Run PHPCS inspection
     runs-on: ubuntu-latest
     steps:
@@ -31,7 +29,7 @@ jobs:
       with:
         ref: ${{ github.event.pull_request.head.sha }}
     - name: Run PHPCS inspection
-      uses: rtCamp/action-phpcs-code-review@master
+      uses: rtCamp/action-phpcs-code-review@v2.0.2
       env:
         GH_BOT_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
         SKIP_FOLDERS: "tests,.github"
