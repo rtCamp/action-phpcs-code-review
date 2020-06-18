@@ -33,6 +33,7 @@ jobs:
       env:
         GH_BOT_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
         SKIP_FOLDERS: "tests,.github"
+        SKIP_LINT: "no"
       with:
         args: "WordPress,WordPress-Core,WordPress-Docs"
 ```
@@ -44,6 +45,8 @@ Now, next time you create a pull request or commit on an existing pull request, 
 By default, pull request will be reviwed using WordPress coding and documentation standards. You can change the default by passing different [PHPCS Coding Standard(s)](#phpcs-coding-standards) in line `args = ["WordPress-Core,WordPress-Docs"]`.
 
 4. In case you want to skip PHPCS scanning in any pull request, add `[do-not-scan]` in the PR description. You can add it anywhere in the description and it will skip the action run for that pull request.
+
+5. In case you want to skip linting all files on every pull request, set `SKIP_LINT` to `1`, `yes` or `true`.
 
 ## GitHub Token Creation
 
@@ -64,6 +67,7 @@ Private   | Complete `repo` and `write:discussion` permissions  | [Screenshot Pr
 Variable       | Default | Possible  Values            | Purpose
 ---------------|---------|-----------------------------|----------------------------------------------------
 `SKIP_FOLDERS` | -       | `tests`,`tests,.github` (Any other comma seprated top level directories in the repo)     | If any specific folders should be ignored when scanning, then a comma seprated list of values should be added to this env variable.
+`SKIP_LINT`    | `no`    | `1`, `yes`, `true` or any other value to indicate *false*                                | If the automatic linting of all PHP files should be deactivated, then this env variable should be set to a truthy value (see *Possible Values*).
 
 ## PHPCS Coding Standards
 
