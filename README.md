@@ -45,6 +45,8 @@ By default, pull request will be reviwed using WordPress coding and documentatio
 
 4. In case you want to skip PHPCS scanning in any pull request, add `[do-not-scan]` in the PR description. You can add it anywhere in the description and it will skip the action run for that pull request.
 
+5. In case you want to skip linting all files on every pull request, set `PHP_LINT` to `false`.
+
 ## GitHub Token Creation
 
 You can create [GitHub Token from here](https://github.com/settings/tokens).
@@ -64,6 +66,7 @@ Private   | Complete `repo` and `write:discussion` permissions  | [Screenshot Pr
 Variable       | Default | Possible  Values            | Purpose
 ---------------|---------|-----------------------------|----------------------------------------------------
 `SKIP_FOLDERS` | -       | `tests`,`tests,.github` (Any other comma seprated top level directories in the repo)     | If any specific folders should be ignored when scanning, then a comma seprated list of values should be added to this env variable.
+`PHP_LINT`     | `true`  | `true` or `false`, *case insensitive* (Any unknown value is the same as passing `true`)  | If the default automatic linting of all PHP files should be deactivated, then this env variable should be set to `false`.
 
 ## PHPCS Coding Standards
 
