@@ -33,7 +33,6 @@ jobs:
       env:
         GH_BOT_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
         SKIP_FOLDERS: "tests,.github"
-        SKIP_LINT: "no"
       with:
         args: "WordPress,WordPress-Core,WordPress-Docs"
 ```
@@ -67,7 +66,7 @@ Private   | Complete `repo` and `write:discussion` permissions  | [Screenshot Pr
 Variable       | Default | Possible  Values            | Purpose
 ---------------|---------|-----------------------------|----------------------------------------------------
 `SKIP_FOLDERS` | -       | `tests`,`tests,.github` (Any other comma seprated top level directories in the repo)     | If any specific folders should be ignored when scanning, then a comma seprated list of values should be added to this env variable.
-`SKIP_LINT`    | `no`    | `1`, `yes`, `true` or any other value to indicate *false*                                | If the automatic linting of all PHP files should be deactivated, then this env variable should be set to a truthy value (see *Possible Values*).
+`PHP_LINT`     | `true`  | `true` or `false`, *case insensitive* (Any unknown value is the same as passing `true`)  | If the default automatic linting of all PHP files should be deactivated, then this env variable should be set to `false`.
 
 ## PHPCS Coding Standards
 
