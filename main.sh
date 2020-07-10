@@ -39,6 +39,9 @@ if [[ -n "$VAULT_GITHUB_TOKEN" ]] || [[ -n "$VAULT_TOKEN" ]]; then
   export GH_BOT_TOKEN=$(vault read -field=token secret/rtBot-token)
 fi
 
+# Remove spaces from GitHub token, at times copying token can give leading space.
+GH_BOT_TOKEN=${GH_BOT_TOKEN//[[:blank:]]/}
+
 phpcs_standard=''
 
 defaultFiles=(
