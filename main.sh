@@ -68,6 +68,8 @@ if [[ $phpcsfilefound -ne 0 ]]; then
     fi
 fi
 
+[[ -z "$PHPCS_SNIFFS_EXCLUDE" ]] && phpcs_sniffs_exclude='' || phpcs_sniffs_exclude="--phpcs-sniffs-exclude='$PHPCS_SNIFFS_EXCLUDE'"
+
 [[ -z "$SKIP_FOLDERS" ]] && skip_folders_option='' || skip_folders_option="--skip-folders='$SKIP_FOLDERS'" 
 
 /usr/games/cowsay "Running with the flag $phpcs_standard"
@@ -78,6 +80,6 @@ if [[ "$(echo "$PHP_LINT" | tr '[:upper:]' '[:lower:]')" = 'false' ]]; then
 fi
 
 echo "Running the following command"
-echo "/home/rtbot/vip-go-ci-tools/vip-go-ci/vip-go-ci.php --repo-owner=$GITHUB_REPO_OWNER --repo-name=$GITHUB_REPO_NAME --commit=$COMMIT_ID --token=\$GH_BOT_TOKEN --phpcs-path=/home/rtbot/vip-go-ci-tools/phpcs/bin/phpcs --local-git-repo=/home/rtbot/github-workspace --phpcs=true $phpcs_standard $skip_folders_option $php_lint_option"
+echo "/home/rtbot/vip-go-ci-tools/vip-go-ci/vip-go-ci.php --repo-owner=$GITHUB_REPO_OWNER --repo-name=$GITHUB_REPO_NAME --commit=$COMMIT_ID --token=\$GH_BOT_TOKEN --phpcs-path=/home/rtbot/vip-go-ci-tools/phpcs/bin/phpcs --local-git-repo=/home/rtbot/github-workspace --phpcs=true $phpcs_standard $phpcs_sniffs_exclude $skip_folders_option $php_lint_option"
 
-gosu rtbot bash -c "/home/rtbot/vip-go-ci-tools/vip-go-ci/vip-go-ci.php --repo-owner=$GITHUB_REPO_OWNER --repo-name=$GITHUB_REPO_NAME --commit=$COMMIT_ID --token=$GH_BOT_TOKEN --phpcs-path=/home/rtbot/vip-go-ci-tools/phpcs/bin/phpcs --local-git-repo=/home/rtbot/github-workspace --phpcs=true $phpcs_standard $skip_folders_option $php_lint_option"
+gosu rtbot bash -c "/home/rtbot/vip-go-ci-tools/vip-go-ci/vip-go-ci.php --repo-owner=$GITHUB_REPO_OWNER --repo-name=$GITHUB_REPO_NAME --commit=$COMMIT_ID --token=$GH_BOT_TOKEN --phpcs-path=/home/rtbot/vip-go-ci-tools/phpcs/bin/phpcs --local-git-repo=/home/rtbot/github-workspace --phpcs=true $phpcs_standard $phpcs_sniffs_exclude $skip_folders_option $php_lint_option"
