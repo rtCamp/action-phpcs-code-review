@@ -41,7 +41,7 @@ RUN wget https://raw.githubusercontent.com/Automattic/vip-go-ci/master/tools-ini
 	bash tools-init.sh && \
 	rm -f tools-init.sh
 
-ENV VAULT_VERSION 1.0.2
+ENV VAULT_VERSION 1.4.3
 
 # Setup Vault
 RUN wget https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_amd64.zip && \
