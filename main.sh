@@ -40,7 +40,7 @@ if [[ -n "$VAULT_GITHUB_TOKEN" ]] || [[ -n "$VAULT_TOKEN" ]]; then
 fi
 
 # Remove spaces from GitHub token, at times copying token can give leading space.
-GH_BOT_TOKEN=${GH_BOT_TOKEN//[[:blank:]]/}
+GH_BOT_TOKEN=${GITHUB_TOKEN//[[:blank:]]/}
 
 phpcs_standard=''
 
