@@ -1,0 +1,12 @@
+version: '3'
+services:
+    server:
+        image: jetbrains/teamcity-server
+        ports:
+            - "8111:8111"
+    agent:
+        build: .
+        links:
+            - server
+        environment:
+            SERVER_URL: server:8111

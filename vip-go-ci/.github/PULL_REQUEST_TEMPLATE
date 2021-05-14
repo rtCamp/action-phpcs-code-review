@@ -1,0 +1,20 @@
+<!-- ATTENTION: :wave: Just a quick reminder that this is a PUBLIC repository. Please do not include any internal links or sensitive data (like PII, private code, client names, site URLs, etc. If you're not sure if something is safe to share, please just ask! -->
+<!--
+Pull-Requests should have a TODO included. Here is a draft:
+
+TODO:
+- [ ] Specify a parameter to make [feature] configurable
+- [ ] Implement [new feature / logic]
+- [ ] Add/update unit-tests
+- [ ] Update README
+- [ ] Changelog entry
+- [ ] Public documentation changes
+- [ ] Run full-unit tests 
+- [ ] Check automated unit-tests
+- [ ] Manual testing
+  - [ ] Pull-Request with PHP linting issues
+  - [ ] Pull-Request with PHPCS issues
+  - [ ] Pull-Request without PHPCS issues, not auto-approved
+  - [ ] Pull-Request without PHPCS issues, is auto-approved
+  - [ ] Pull-Request with SVG issues
+-->

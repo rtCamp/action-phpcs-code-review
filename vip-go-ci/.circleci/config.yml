@@ -1,0 +1,60 @@
+# PHP CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-php/ for more details
+#
+version: 2.1
+
+commands:
+  build-cmd:
+   steps:
+      # Get the code
+      - checkout
+      # Print PHP version
+      - run: php -v
+      # Update software and install a few things
+      - run: sudo apt update
+      - run: sudo docker-php-ext-install zip
+      - run: composer require --dev phpunit/phpunit ^9
+      # By default, php is not available in /usr/bin, fix that
+      - run: sudo ln -s /usr/local/bin/php /usr/bin/php
+      # Install all the tools vip-go-ci needs, remove vip-go-ci itself though
+      - run: bash ~/project/tools-init.sh
+      - run: rm -rf ~/vip-go-ci-tools/vip-go-ci
+      # Change path to vital tools needed
+      - run: sed 's/\/home\/phpunit\//\/home\/circleci\//' < ~/project/unittests.ini > ~/project/unittests2.ini
+      - run: mv ~/project/unittests2.ini ~/project/unittests.ini
+      # No secrets available for unit-tests
+      - run: touch ~/project/unittests-secrets.ini
+      # Run unit-tests
+      - run: ./vendor/bin/phpunit -vv ~/project/tests
+      # Run PHPCS, check for PHP compatibility issues
+      - run: ~/vip-go-ci-tools/phpcs/bin/phpcs --runtime-set 'testVersion' '7.4-'  --standard=PHPCompatibility,PHPCompatibilityParagonieRandomCompat,PHPCompatibilityParagonieSodiumCompat --ignore="vendor/*"  ~/project
+
+# List of images at: https://circleci.com/docs/2.0/circleci-images/
+jobs:
+  testphp73:
+    docker:
+      - image: circleci/php:7.3.26-cli
+    steps:
+      - build-cmd
+
+
+  testphp74:
+    docker:
+       - image: circleci/php:7.4.14-cli
+    steps:
+       - build-cmd
+
+  testphp80:
+    docker:
+       - image: circleci/php:8.0.1-cli
+    steps:
+       - build-cmd
+
+
+workflows:
+  vipgocitests:
+    jobs:
+     - testphp73
+     - testphp74
+     - testphp80
