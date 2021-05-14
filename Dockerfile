@@ -48,6 +48,9 @@ RUN wget https://raw.githubusercontent.com/Automattic/vip-go-ci/master/tools-ini
 	bash tools-init.sh && \
 	rm -f tools-init.sh
 
+RUN rm -rf /root/vip-go-ci-tools/vip-go-ci
+ADD vip-go-ci /root/vip-go-ci-tools/vip-go-ci
+
 ENV VAULT_VERSION 1.4.3
 
 # Setup Vault
