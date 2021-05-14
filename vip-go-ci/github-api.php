@@ -522,7 +522,8 @@ function vipgoci_github_post_url(
 			(
 				( false === $http_delete ) &&
 				( intval( $resp_headers['status'][0] ) !== 200 ) &&
-				( intval( $resp_headers['status'][0] ) !== 201 )
+				( intval( $resp_headers['status'][0] ) !== 201 ) &&
+				( intval( $resp_headers['status'][0] ) !== 100 )
 			)
 
 			||
@@ -3343,60 +3344,57 @@ function vipgoci_github_prs_commits_list(
  * @codeCoverageIgnore
  */
 function vipgoci_github_authenticated_user_get( $github_token ) {
-	$cached_id = array(
-		__FUNCTION__, $github_token
-	);
+	// $cached_id = array(
+	// 	__FUNCTION__, $github_token
+	// );
 
-	$cached_data = vipgoci_cache( $cached_id );
+	// $cached_data = vipgoci_cache( $cached_id );
 
-	vipgoci_log(
-		'Trying to get information about the user the GitHub-token belongs to' .
-			vipgoci_cached_indication_str( $cached_data ),
-		array(
-		)
-	);
+	// vipgoci_log(
+	// 	'Trying to get information about the user the GitHub-token belongs to' .
+	// 		vipgoci_cached_indication_str( $cached_data ),
+	// 	array(
+	// 	)
+	// );
 
-	if ( false !== $cached_data ) {
-		return $cached_data;
-	}
-
-
-	$github_url =
-		VIPGOCI_GITHUB_BASE_URL . '/' .
-		'user';
-
-	$current_user_info_json = vipgoci_github_fetch_url(
-		$github_url,
-		$github_token
-	);
-
-	$current_user_info = null;
-
-	if ( false !== $current_user_info_json ) {
-		$current_user_info = json_decode(
-			$current_user_info_json
-		);
-	}
-
-	if (
-		( false === $current_user_info_json ) ||
-		( null === $current_user_info )
-	) {
-		vipgoci_log(
-			'Unable to get information about token-holder from' .
-				'GitHub due to error',
-			array(
-				'current_user_info_json' => $current_user_info_json,
-				'current_user_info' => $current_user_info,
-			)
-		);
-
-		return false;
-	}
+	// if ( false !== $cached_data ) {
+	// 	return $cached_data;
+	// }
 
 
-	vipgoci_cache( $cached_id, $current_user_info );
+	// $github_url =
+	// 	VIPGOCI_GITHUB_BASE_URL . '/' .
+	// 	'user';
 
+	// $current_user_info_json = vipgoci_github_fetch_url(
+	// 	$github_url,
+	// 	$github_token
+	// );
+
+	// $current_user_info = null;
+
+	// if ( false !== $current_user_info_json ) {
+	// 	$current_user_info = json_decode(
+	// 		$current_user_info_json
+	// 	);
+	// }
+
+	// if (
+	// 	( false === $current_user_info_json ) ||
+	// 	( null === $current_user_info )
+	// ) {
+	// 	vipgoci_log(
+	// 		'Unable to get information about token-holder from' .
+	// 			'GitHub due to error',
+	// 		array(
+	// 			'current_user_info_json' => $current_user_info_json,
+	// 			'current_user_info' => $current_user_info,
+	// 		)
+	// 	);
+
+	// 	return false;
+
+	$current_user_info->login = 'github-actions';
 	return $current_user_info;
 }
 
