@@ -99,9 +99,14 @@ Allowed options:
 - `"autoapprove-php-nonfunctional-changes`
 
 For more details please check the documentation for [all options here](https://github.com/automattic/vip-go-ci#configuration-via-repository-config-file).
+
 ## Skipping PHPCS scanning for specific folders
 
 You can add files to the root of the repository indicating folders that should not be scanned. For PHPCS, the file should be named `.vipgoci_phpcs_skip_folders`. For PHP Linting the file should be named `.vipgoci_lint_skip_folders`. Please ensure both files are located in the root of the repository.
+
+This can be used as an alternate to `SKIP_FOLDERS` env variable.
+
+**Please note** that the folders exlcuded in the PHPCS xml file do not work in this action, you can check the reason [here](https://github.com/rtCamp/action-phpcs-code-review/issues/29#issuecomment-623933663). Instead you should add all the folders to be excluded in either `SKIP_FOLDERS` env or `.vipgoci_phpcs_skip_folders` file.
 
 List each folder to be skipped on individual lines within those files.
 
