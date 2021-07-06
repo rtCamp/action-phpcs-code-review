@@ -109,10 +109,13 @@ List each folder to be skipped on individual lines within those files.
 
 i.e:
 ```
-tests
+foo
+tests/bar
 vendor
 node_modules
 ```
+
+For more details, please check the documentation [here](https://github.com/automattic/vip-go-ci#skipping-certain-folders).
 
 ## PHPCS Coding Standards
 
