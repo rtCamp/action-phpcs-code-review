@@ -34,8 +34,6 @@ jobs:
         GH_BOT_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
         SKIP_FOLDERS: "tests,.github"
         PHPCS_SNIFFS_EXCLUDE: "WordPress.Files.FileName"
-        PHPCS_STANDARD_FILE_NAME: 'phpcs.ruleset.xml'
-        PHPCS_FILE_PATH: 'vendor/bin/phpcs'
       with:
         args: "WordPress,WordPress-Core,WordPress-Docs"
 ```
