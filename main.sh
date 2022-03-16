@@ -90,7 +90,7 @@ if [[ "$(echo "$PHP_LINT" | tr '[:upper:]' '[:lower:]')" = 'false' ]]; then
 fi
 
 echo "Running the following command"
-echo "/home/fatfaldog/vip-go-ci-tools/vip-go-ci/vip-go-ci.php \
+echo "php /home/fatfaldog/vip-go-ci-tools/vip-go-ci/vip-go-ci.php \
   --phpcs-skip-folders-in-repo-options-file=true \
   --lint-skip-folders-in-repo-options-file=true \
   --repo-options=true \
@@ -108,7 +108,7 @@ echo "/home/fatfaldog/vip-go-ci-tools/vip-go-ci/vip-go-ci.php \
   --informational-url='https://github.com/rtCamp/action-phpcs-code-review/'"
 
 gosu fatfaldog bash -c \
-  "/home/fatfaldog/vip-go-ci-tools/vip-go-ci/vip-go-ci.php \
+  "php /home/fatfaldog/vip-go-ci-tools/vip-go-ci/vip-go-ci.php \
   --phpcs-skip-folders-in-repo-options-file=true \
   --lint-skip-folders-in-repo-options-file=true \
   --repo-options=true \
