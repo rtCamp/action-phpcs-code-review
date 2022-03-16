@@ -1,54 +1,29 @@
-# ubuntu:latest at 2020-05-12T09:35:28IST
-FROM ubuntu@sha256:3235326357dfb65f1781dbc4df3b834546d8bf914e82cce58e6e6b676e23ce8f
+FROM php:8.1-cli-bullseye
 
 LABEL "com.github.actions.icon"="check-circle"
 LABEL "com.github.actions.color"="green"
 LABEL "com.github.actions.name"="PHPCS Code Review"
 LABEL "com.github.actions.description"="This will run phpcs on PRs"
-LABEL "org.opencontainers.image.source"="https://github.com/rtCamp/action-phpcs-code-review"
-
-RUN echo "tzdata tzdata/Areas select Asia" | debconf-set-selections && \
-echo "tzdata tzdata/Zones/Asia select Kolkata" | debconf-set-selections
+LABEL "org.opencontainers.image.source"="https://github.com/fatfaldog/action-phpcs-code-review"
 
 RUN set -eux; \
 	apt-get update; \
 	apt install software-properties-common -y && \
-	add-apt-repository ppa:ondrej/php && \
 	DEBIAN_FRONTEND=noninteractive apt-get install -y \
-	cowsay \
 	git \
-	gosu \
-	jq \
-	php7.4-cli \
-	php7.4-common \
-	php7.4-curl \
-	php7.4-json \
-	php7.4-mbstring \
-	php7.4-mysql \
-	php7.4-xml \
-	php7.4-zip \
-	php-xml \
-	python \
-	python-pip \
-	rsync \
-	sudo \
-	tree \
-	vim \
+	wget \
 	zip \
 	unzip \
-	wget ; \
-	pip install shyaml; \
-	rm -rf /var/lib/apt/lists/*; \
-	# verify that the binary works
-	gosu nobody true
+	;
 
-RUN useradd -m -s /bin/bash rtbot
+RUN useradd -m -s /bin/bash fatfaldog
 
-RUN wget https://raw.githubusercontent.com/Automattic/vip-go-ci/main/tools-init.sh -O tools-init.sh && \
+ENV VIP_GO_CI_VER 1.2.2
+RUN wget https://raw.githubusercontent.com/Automattic/vip-go-ci/${VIP_GO_CI_VER}/tools-init.sh -O tools-init.sh && \
 	bash tools-init.sh && \
 	rm -f tools-init.sh
 
-ENV VAULT_VERSION 1.4.3
+ENV VAULT_VERSION 1.9.4
 
 # Setup Vault
 RUN wget https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_amd64.zip && \
