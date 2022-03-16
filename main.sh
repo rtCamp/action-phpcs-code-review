@@ -105,11 +105,11 @@ echo "php /home/fatfaldog/vip-go-ci-tools/vip-go-ci/vip-go-ci.php \
   --review-comments-max=20 \
   --review-comments-total-max=70 \
   --hashes-api=false \
-  --hashes-api-url='/' \
-  --hashes-oauth-token=false \
-  --hashes-oauth-token-secret=false \
-  --hashes-oauth-consumer-key=false \
-  --hashes-oauth-consumer-secret=false \
+  --hashes-api-url= \
+  --hashes-oauth-token= \
+  --hashes-oauth-token-secret= \
+  --hashes-oauth-consumer-key= \
+  --hashes-oauth-consumer-secret= \
   $phpcs_file_path \
   $phpcs_standard \
   $phpcs_sniffs_exclude \
@@ -132,12 +132,12 @@ gosu fatfaldog bash -c \
   --lint-php-versions=8.1 \
   --review-comments-max=20 \
   --review-comments-total-max=70 \
-  --hashes-api=false \
-  --hashes-api-url='/' \
-  --hashes-oauth-token=false \
-  --hashes-oauth-token-secret=false \
-  --hashes-oauth-consumer-key=false \
-  --hashes-oauth-consumer-secret=false \
+  --hashes-api= \
+  --hashes-api-url= \
+  --hashes-oauth-token= \
+  --hashes-oauth-token-secret= \
+  --hashes-oauth-consumer-key= \
+  --hashes-oauth-consumer-secret= \
   $phpcs_file_path \
   $phpcs_standard \
   $phpcs_sniffs_exclude \
