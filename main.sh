@@ -101,7 +101,9 @@ echo "php /home/fatfaldog/vip-go-ci-tools/vip-go-ci/vip-go-ci.php \
   --token=\$GH_BOT_TOKEN \
   --local-git-repo=$fatfaldog_WORKSPACE \
   --lint-php-version-paths=8.1:/usr/local/bin/php \
-  --lint-php-versions=8.1\
+  --lint-php-versions=8.1 \
+  --hashes-api=false \
+  --hashes-api-url='' \
   $phpcs_file_path \
   $phpcs_standard \
   $phpcs_sniffs_exclude \
@@ -121,7 +123,9 @@ gosu fatfaldog bash -c \
   --token=$GH_BOT_TOKEN \
   --local-git-repo=$fatfaldog_WORKSPACE \
   --lint-php-version-paths=8.1:/usr/local/bin/php \
-  --lint-php-versions=8.1\
+  --lint-php-versions=8.1 \
+  --hashes-api=false \
+  --hashes-api-url='' \
   $phpcs_file_path \
   $phpcs_standard \
   $phpcs_sniffs_exclude \
