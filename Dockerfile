@@ -14,6 +14,7 @@ RUN set -eux; \
 	wget \
 	zip \
 	unzip \
+	gosu \
 	;
 
 RUN useradd -m -s /bin/bash fatfaldog
