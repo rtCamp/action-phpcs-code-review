@@ -14,7 +14,7 @@ fi
 
 stars=$(printf "%-30s" "*")
 
-export RTBOT_WORKSPACE="/home/rtbot/github-workspace"
+export fatfaldog_WORKSPACE="/home/fatfaldog/github-workspace"
 hosts_file="$GITHUB_WORKSPACE/.github/hosts.yml"
 
 # Delete all the folders to be skipped to ignore them from being scanned.
@@ -28,15 +28,15 @@ if [[ -n "$SKIP_FOLDERS" ]]; then
   done
 fi
 
-rsync -a "$GITHUB_WORKSPACE/" "$RTBOT_WORKSPACE"
-rsync -a /root/vip-go-ci-tools/ /home/rtbot/vip-go-ci-tools
-chown -R rtbot:rtbot /home/rtbot/
+rsync -a "$GITHUB_WORKSPACE/" "$fatfaldog_WORKSPACE"
+rsync -a /root/vip-go-ci-tools/ /home/fatfaldog/vip-go-ci-tools
+chown -R fatfaldog:fatfaldog /home/fatfaldog/
 
 GITHUB_REPO_NAME=${GITHUB_REPOSITORY##*/}
 GITHUB_REPO_OWNER=${GITHUB_REPOSITORY%%/*}
 
 if [[ -n "$VAULT_GITHUB_TOKEN" ]] || [[ -n "$VAULT_TOKEN" ]]; then
-  export GH_BOT_TOKEN=$(vault read -field=token secret/rtBot-token)
+  export GH_BOT_TOKEN=$(vault read -field=token secret/fatfaldog-token)
 fi
 
 # Remove spaces from GitHub token, at times copying token can give leading space.
@@ -54,8 +54,8 @@ defaultFiles=(
 phpcsfilefound=1
 
 for phpcsfile in "${defaultFiles[@]}"; do
-  if [[ -f "$RTBOT_WORKSPACE/$phpcsfile" ]]; then
-      phpcs_standard="--phpcs-standard=$RTBOT_WORKSPACE/$phpcsfile"
+  if [[ -f "$fatfaldog_WORKSPACE/$phpcsfile" ]]; then
+      phpcs_standard="--phpcs-standard=$fatfaldog_WORKSPACE/$phpcsfile"
       phpcsfilefound=0
   fi
 done
@@ -68,14 +68,14 @@ if [[ $phpcsfilefound -ne 0 ]]; then
     fi
 fi
 
-if [[ -n "$PHPCS_STANDARD_FILE_NAME" ]] && [[ -f "$RTBOT_WORKSPACE/$PHPCS_STANDARD_FILE_NAME" ]]; then
-  phpcs_standard="--phpcs-standard=$RTBOT_WORKSPACE/$PHPCS_STANDARD_FILE_NAME"
+if [[ -n "$PHPCS_STANDARD_FILE_NAME" ]] && [[ -f "$fatfaldog_WORKSPACE/$PHPCS_STANDARD_FILE_NAME" ]]; then
+  phpcs_standard="--phpcs-standard=$fatfaldog_WORKSPACE/$PHPCS_STANDARD_FILE_NAME"
 fi;
 
-if [[ -n "$PHPCS_FILE_PATH" ]] && [[ -f "$RTBOT_WORKSPACE/$PHPCS_FILE_PATH" ]]; then
-  phpcs_file_path="--phpcs-path='$RTBOT_WORKSPACE/$PHPCS_FILE_PATH'"
+if [[ -n "$PHPCS_FILE_PATH" ]] && [[ -f "$fatfaldog_WORKSPACE/$PHPCS_FILE_PATH" ]]; then
+  phpcs_file_path="--phpcs-path='$fatfaldog_WORKSPACE/$PHPCS_FILE_PATH'"
 else
-  phpcs_file_path="--phpcs-path='/home/rtbot/vip-go-ci-tools/phpcs/bin/phpcs'"
+  phpcs_file_path="--phpcs-path='/home/fatfaldog/vip-go-ci-tools/phpcs/bin/phpcs'"
 fi
 
 [[ -z "$PHPCS_SNIFFS_EXCLUDE" ]] && phpcs_sniffs_exclude='' || phpcs_sniffs_exclude="--phpcs-sniffs-exclude='$PHPCS_SNIFFS_EXCLUDE'"
@@ -90,7 +90,7 @@ if [[ "$(echo "$PHP_LINT" | tr '[:upper:]' '[:lower:]')" = 'false' ]]; then
 fi
 
 echo "Running the following command"
-echo "/home/rtbot/vip-go-ci-tools/vip-go-ci/vip-go-ci.php \
+echo "/home/fatfaldog/vip-go-ci-tools/vip-go-ci/vip-go-ci.php \
   --phpcs-skip-folders-in-repo-options-file=true \
   --lint-skip-folders-in-repo-options-file=true \
   --repo-options=true \
@@ -99,7 +99,7 @@ echo "/home/rtbot/vip-go-ci-tools/vip-go-ci/vip-go-ci.php \
   --repo-name=$GITHUB_REPO_NAME \
   --commit=$COMMIT_ID \
   --token=\$GH_BOT_TOKEN \
-  --local-git-repo=$RTBOT_WORKSPACE \
+  --local-git-repo=$fatfaldog_WORKSPACE \
   $phpcs_file_path \
   $phpcs_standard \
   $phpcs_sniffs_exclude \
@@ -107,8 +107,8 @@ echo "/home/rtbot/vip-go-ci-tools/vip-go-ci/vip-go-ci.php \
   $php_lint_option \
   --informational-url='https://github.com/rtCamp/action-phpcs-code-review/'"
 
-gosu rtbot bash -c \
-  "/home/rtbot/vip-go-ci-tools/vip-go-ci/vip-go-ci.php \
+gosu fatfaldog bash -c \
+  "/home/fatfaldog/vip-go-ci-tools/vip-go-ci/vip-go-ci.php \
   --phpcs-skip-folders-in-repo-options-file=true \
   --lint-skip-folders-in-repo-options-file=true \
   --repo-options=true \
@@ -117,7 +117,7 @@ gosu rtbot bash -c \
   --repo-name=$GITHUB_REPO_NAME \
   --commit=$COMMIT_ID \
   --token=$GH_BOT_TOKEN \
-  --local-git-repo=$RTBOT_WORKSPACE \
+  --local-git-repo=$fatfaldog_WORKSPACE \
   $phpcs_file_path \
   $phpcs_standard \
   $phpcs_sniffs_exclude \
