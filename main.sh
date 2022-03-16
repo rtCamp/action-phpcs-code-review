@@ -102,6 +102,7 @@ echo "php /home/fatfaldog/vip-go-ci-tools/vip-go-ci/vip-go-ci.php \
   --local-git-repo=$fatfaldog_WORKSPACE \
   --lint-php-version-paths=8.1:/usr/local/bin/php \
   --lint-php-versions=8.1 \
+  --review-comments-max=20 \
   --hashes-api=false \
   --hashes-api-url=none \
   --hashes-oauth-token=none \
@@ -126,6 +127,7 @@ gosu fatfaldog bash -c \
   --local-git-repo=$fatfaldog_WORKSPACE \
   --lint-php-version-paths=8.1:/usr/local/bin/php \
   --lint-php-versions=8.1 \
+  --review-comments-max=20 \
   --hashes-api=false \
   --hashes-api-url=none \
   --hashes-oauth-token=none \
