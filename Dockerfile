@@ -22,7 +22,7 @@ RUN set -eux; \
 
 RUN useradd -m -s /bin/bash fatfaldog
 
-ENV VIP_GO_CI_VER 1.2.1
+ENV VIP_GO_CI_VER 1.2.0
 RUN wget https://raw.githubusercontent.com/Automattic/vip-go-ci/${VIP_GO_CI_VER}/tools-init.sh -O tools-init.sh && \
 	bash tools-init.sh && \
 	rm -f tools-init.sh
