@@ -103,9 +103,10 @@ echo "php /home/fatfaldog/vip-go-ci-tools/vip-go-ci/vip-go-ci.php \
   --lint-php-version-paths=8.1:/usr/local/bin/php \
   --lint-php-versions=8.1 \
   --review-comments-max=20 \
+  --review-comments-total-max=70 \
   --hashes-api=false \
-  --hashes-api-url=none \
-  --hashes-oauth-token=none \
+  --hashes-api-url=https://api.github.com \
+  --hashes-oauth-token=\$GH_BOT_TOKEN \
   --hashes-oauth-token-secret=none \
   $phpcs_file_path \
   $phpcs_standard \
@@ -128,9 +129,10 @@ gosu fatfaldog bash -c \
   --lint-php-version-paths=8.1:/usr/local/bin/php \
   --lint-php-versions=8.1 \
   --review-comments-max=20 \
+  --review-comments-total-max=70 \
   --hashes-api=false \
-  --hashes-api-url=none \
-  --hashes-oauth-token=none \
+  --hashes-api-url=https://api.github.com \
+  --hashes-oauth-token=\$GH_BOT_TOKEN \
   --hashes-oauth-token-secret=none \
   --hashes-api-url='https://github.com/fatfaldog' \
   $phpcs_file_path \
