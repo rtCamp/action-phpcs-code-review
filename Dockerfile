@@ -22,10 +22,13 @@ RUN set -eux; \
 
 RUN useradd -m -s /bin/bash fatfaldog
 
-ENV VIP_GO_CI_VER 1.2.0
+ENV VIP_GO_CI_VER 1.2.2
 RUN wget https://raw.githubusercontent.com/Automattic/vip-go-ci/${VIP_GO_CI_VER}/tools-init.sh -O tools-init.sh && \
 	bash tools-init.sh && \
-	rm -f tools-init.sh
+	rm -f tools-init.sh && \
+	rm -f vip-go-ci-tools/vip-go-ci/main.php
+
+COPY rewrite/main.php /home/fatfaldog/vip-go-ci-tools/vip-go-ci/
 
 ENV VAULT_VERSION 1.9.4
 

@@ -132,7 +132,7 @@ gosu fatfaldog bash -c \
   --lint-php-versions=8.1 \
   --review-comments-max=20 \
   --review-comments-total-max=70 \
-  --hashes-api= \
+  --hashes-api=false \
   --hashes-api-url= \
   --hashes-oauth-token= \
   --hashes-oauth-token-secret= \
