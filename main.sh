@@ -132,7 +132,7 @@ gosu fatfaldog bash -c \
   --review-comments-total-max=70 \
   --hashes-api=false \
   --hashes-api-url=https://api.github.com \
-  --hashes-oauth-token=\$GH_BOT_TOKEN \
+  --hashes-oauth-token=$GH_BOT_TOKEN \
   --hashes-oauth-token-secret=none \
   --hashes-api-url='https://github.com/fatfaldog' \
   $phpcs_file_path \
