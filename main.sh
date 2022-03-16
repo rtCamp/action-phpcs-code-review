@@ -106,8 +106,10 @@ echo "php /home/fatfaldog/vip-go-ci-tools/vip-go-ci/vip-go-ci.php \
   --review-comments-total-max=70 \
   --hashes-api=false \
   --hashes-api-url= \
-  --hashes-oauth-token=\$GH_BOT_TOKEN \
-  --hashes-oauth-token-secret=none \
+  --hashes-oauth-token= \
+  --hashes-oauth-token-secret= \
+  --hashes-oauth-consumer-key= \
+  --hashes-oauth-consumer-secret= \
   $phpcs_file_path \
   $phpcs_standard \
   $phpcs_sniffs_exclude \
@@ -132,8 +134,10 @@ gosu fatfaldog bash -c \
   --review-comments-total-max=70 \
   --hashes-api=false \
   --hashes-api-url= \
-  --hashes-oauth-token=$GH_BOT_TOKEN \
-  --hashes-oauth-token-secret=none \
+  --hashes-oauth-token= \
+  --hashes-oauth-token-secret= \
+  --hashes-oauth-consumer-key= \
+  --hashes-oauth-consumer-secret= \
   --hashes-api-url='https://github.com/fatfaldog' \
   $phpcs_file_path \
   $phpcs_standard \
