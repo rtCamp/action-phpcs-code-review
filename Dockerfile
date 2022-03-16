@@ -15,6 +15,8 @@ RUN set -eux; \
 	zip \
 	unzip \
 	gosu \
+	jq \
+	rsync \
 	;
 
 RUN useradd -m -s /bin/bash fatfaldog
