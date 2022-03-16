@@ -138,7 +138,6 @@ gosu fatfaldog bash -c \
   --hashes-oauth-token-secret=false \
   --hashes-oauth-consumer-key=false \
   --hashes-oauth-consumer-secret=false \
-  --hashes-api-url='https://github.com/fatfaldog' \
   $phpcs_file_path \
   $phpcs_standard \
   $phpcs_sniffs_exclude \
