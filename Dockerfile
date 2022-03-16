@@ -17,6 +17,7 @@ RUN set -eux; \
 	gosu \
 	jq \
 	rsync \
+	cowsay \
 	;
 
 RUN useradd -m -s /bin/bash fatfaldog
