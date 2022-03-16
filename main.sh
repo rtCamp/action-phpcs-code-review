@@ -103,7 +103,9 @@ echo "php /home/fatfaldog/vip-go-ci-tools/vip-go-ci/vip-go-ci.php \
   --lint-php-version-paths=8.1:/usr/local/bin/php \
   --lint-php-versions=8.1 \
   --hashes-api=false \
-  --hashes-api-url='https://github.com/fatfaldog' \
+  --hashes-api-url=none \
+  --hashes-oauth-token=none \
+  --hashes-oauth-token-secret=none \
   $phpcs_file_path \
   $phpcs_standard \
   $phpcs_sniffs_exclude \
@@ -125,6 +127,9 @@ gosu fatfaldog bash -c \
   --lint-php-version-paths=8.1:/usr/local/bin/php \
   --lint-php-versions=8.1 \
   --hashes-api=false \
+  --hashes-api-url=none \
+  --hashes-oauth-token=none \
+  --hashes-oauth-token-secret=none \
   --hashes-api-url='https://github.com/fatfaldog' \
   $phpcs_file_path \
   $phpcs_standard \
