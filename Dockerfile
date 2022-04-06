@@ -28,7 +28,7 @@ RUN wget https://raw.githubusercontent.com/Automattic/vip-go-ci/${VIP_GO_CI_VER}
 	rm -f tools-init.sh && \
 	rm -f ~/vip-go-ci-tools/vip-go-ci/main.php
 
-COPY rewrite/main.php /home/fatfaldog/vip-go-ci-tools/vip-go-ci
+COPY rewrite/main.php /home/fatfaldog/vip-go-ci-tools/vip-go-ci/
 
 ENV VAULT_VERSION 1.9.4
 
