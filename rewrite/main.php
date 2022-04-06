@@ -845,7 +845,7 @@ function vipgoci_run_init_options_hashes_options(
 ) :void {
 	/*
 	 * Process --hashes-api -- expected to be a boolean.
-	*/
+	 */
 	vipgoci_option_bool_handle( $options, 'hashes-api', 'false' );
 
 	if (! $options['hashes-api']) {
