@@ -848,6 +848,10 @@ function vipgoci_run_init_options_hashes_options(
 	*/
 	vipgoci_option_bool_handle( $options, 'hashes-api', 'false' );
 
+	if (! $options['hashes-api']) {
+		return;
+	}
+
 	/*
 	 * Process --hashes-api-url -- expected to
 	 * be an URL to a webservice.
