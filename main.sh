@@ -140,9 +140,11 @@ gosu fatfaldog bash -c \
   --hashes-oauth-token-secret= \
   --hashes-oauth-consumer-key= \
   --hashes-oauth-consumer-secret= \
+  --informational-url='https://github.com/fatfaldog/action-phpcs-code-review/' \
+  --informational-msg='Codestyle check completed' \
   $phpcs_file_path \
   $phpcs_standard \
   $phpcs_sniffs_exclude \
   $skip_folders_option \
   $php_lint_option \
-  --informational-url='https://github.com/rtCamp/action-phpcs-code-review/'"
+  "
