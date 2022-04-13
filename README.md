@@ -70,7 +70,7 @@ Variable       | Default | Possible  Values            | Purpose
 `PHPCS_SNIFFS_EXCLUDE` | -       | `WordPress.Files.FileName` (Any other comma seprated list of valid sniffs) | Single sniff or comma seprated list of sniffs to be excluded from the phpcs scan.
 `PHP_LINT`     | `true`  | `true` or `false`, *case insensitive* (Any unknown value is the same as passing `true`)  | If the default automatic linting of all PHP files should be deactivated, then this env variable should be set to `false`.
 `PHPCS_STANDARD_FILE_NAME`     |  -  | phpcs ruleset file from project root dir. i.e phpcs.ruleset.xml | PHP_CodeSniffer ruleset filename. Default filename available: '.phpcs.xml', 'phpcs.xml', '.phpcs.xml.dist', 'phpcs.xml.dist'
-`PHPCS_FILE_PATH`     |  -  | Custom phpcs execution file path from project. i.e Composer phpcs path. 'vendor/bin/phpcs' | This is useful in case of needed to use any custom coding standards apart from pre-defined in VIP/WP Coding Standards.
+`PHPCS_FILE_PATH`     |  -  | Custom phpcs execution file path from project. i.e Composer phpcs path. 'vendor/bin/phpcs' | This is useful in case of needed to use any custom coding standards apart from pre-defined in VIP/WP Coding Standards. [Wiki](https://github.com/rtCamp/action-phpcs-code-review/wiki/How-to%3F#use-custom-coding-standards)
 
 ## Modifying the bot’s behavior
 
@@ -163,7 +163,7 @@ Here is a sample [phpcs.xml](https://github.com/rtCamp/github-actions-wordpress-
 
 ### Custom Coding Standards
 
-If you have custom coding standards from your git repository, you can use composer and use `phpcs` from execution from your repository phpcs file with the help of `PHPCS_FILE_PATH` environment variable.
+If you have custom coding standards from your git repository, you can use composer and use `phpcs` from execution from your repository phpcs file with the help of `PHPCS_FILE_PATH` environment variable. Please refer this [wiki page](https://github.com/rtCamp/action-phpcs-code-review/wiki/How-to%3F#use-custom-coding-standards) for more information.
 
 ## Screenshot
 
