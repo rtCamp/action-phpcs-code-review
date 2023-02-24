@@ -32,7 +32,7 @@ RUN set -eux; \
 
 RUN useradd -m -s /bin/bash rtbot
 
-RUN wget https://raw.githubusercontent.com/Automattic/vip-go-ci/main/tools-init.sh -O tools-init.sh && \
+RUN wget https://raw.githubusercontent.com/Automattic/vip-go-ci/trunk/tools-init.sh -O tools-init.sh && \
 	bash tools-init.sh && \
 	rm -f tools-init.sh
 

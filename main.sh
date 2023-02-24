@@ -92,7 +92,6 @@ fi
 echo "Running the following command"
 echo "/home/rtbot/vip-go-ci-tools/vip-go-ci/vip-go-ci.php \
   --phpcs-skip-folders-in-repo-options-file=true \
-  --lint-skip-folders-in-repo-options-file=true \
   --repo-options=true \
   --phpcs=true \
   --repo-owner=$GITHUB_REPO_OWNER \
@@ -104,13 +103,12 @@ echo "/home/rtbot/vip-go-ci-tools/vip-go-ci/vip-go-ci.php \
   $phpcs_standard \
   $phpcs_sniffs_exclude \
   $skip_folders_option \
-  $php_lint_option \
+  --lint=false \
   --informational-url='https://github.com/rtCamp/action-phpcs-code-review/'"
 
 gosu rtbot bash -c \
   "/home/rtbot/vip-go-ci-tools/vip-go-ci/vip-go-ci.php \
   --phpcs-skip-folders-in-repo-options-file=true \
-  --lint-skip-folders-in-repo-options-file=true \
   --repo-options=true \
   --phpcs=true \
   --repo-owner=$GITHUB_REPO_OWNER \
@@ -122,5 +120,5 @@ gosu rtbot bash -c \
   $phpcs_standard \
   $phpcs_sniffs_exclude \
   $skip_folders_option \
-  $php_lint_option \
+  --lint=false \
   --informational-url='https://github.com/rtCamp/action-phpcs-code-review/'"
