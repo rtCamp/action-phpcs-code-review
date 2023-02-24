@@ -30,6 +30,7 @@ RUN set -eux; \
 	# verify that the binary works
 	gosu nobody true
 
+RUN ln -sn /usr/local/bin/php /usr/bin/php
 RUN useradd -m -s /bin/bash rtbot
 
 RUN wget https://raw.githubusercontent.com/Automattic/vip-go-ci/trunk/tools-init.sh -O tools-init.sh && \
