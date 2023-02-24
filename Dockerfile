@@ -1,4 +1,4 @@
-# ubuntu:latest at 2023-02-24
+# ubuntu:latest at 2023-02-24 IST
 FROM ubuntu@sha256:9a0bdde4188b896a372804be2384015e90e3f84906b750c1a53539b585fbbe7f
 
 LABEL "com.github.actions.icon"="check-circle"
@@ -7,42 +7,37 @@ LABEL "com.github.actions.name"="PHPCS Code Review"
 LABEL "com.github.actions.description"="This will run phpcs on PRs"
 LABEL "org.opencontainers.image.source"="https://github.com/rtCamp/action-phpcs-code-review"
 
+COPY entrypoint.sh main.sh bin/* /usr/local/bin/
+
+RUN chmod +x /usr/local/bin/*.sh
+
 ENV TZ=Asia/Kolkata
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-RUN set -eux; \
-	apt-get update; \
-	apt install software-properties-common -y && \
-	add-apt-repository ppa:ondrej/php && \
-	DEBIAN_FRONTEND=noninteractive apt-get install -y \
+RUN apt-get update && \
+	apt-get install -y \
+	software-properties-common \
 	cowsay \
 	git \
 	gosu \
 	jq \
-	php7.4-cli \
-	php7.4-common \
-	php7.4-curl \
-	php7.4-json \
-	php7.4-mbstring \
-	php7.4-mysql \
-	php7.4-xml \
-	php7.4-zip \
-	php-xml \
-	python \
-	python-pip \
+	python3 \
+	python3-pip \
 	rsync \
 	sudo \
 	tree \
 	vim \
 	zip \
 	unzip \
-	wget ; \
-	pip install shyaml; \
-	rm -rf /var/lib/apt/lists/*; \
-	# verify that the binary works
-	gosu nobody true
+	wget && \
+	pip install shyaml
+
+# verify that the binary works
+RUN gosu nobody true
+
+RUN /usr/local/bin/setup-php.sh
 
 RUN useradd -m -s /bin/bash rtbot
 
@@ -57,8 +52,5 @@ RUN wget https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VER
         unzip vault_${VAULT_VERSION}_linux_amd64.zip && \
         rm vault_${VAULT_VERSION}_linux_amd64.zip && \
         mv vault /usr/local/bin/vault
-
-COPY entrypoint.sh main.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/*.sh
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
