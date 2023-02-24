@@ -1,5 +1,4 @@
-# ubuntu:latest at 2020-05-12T09:35:28IST
-FROM ubuntu@sha256:3235326357dfb65f1781dbc4df3b834546d8bf914e82cce58e6e6b676e23ce8f
+FROM php:8.0-cli-buster
 
 LABEL "com.github.actions.icon"="check-circle"
 LABEL "com.github.actions.color"="green"
@@ -12,24 +11,13 @@ echo "tzdata tzdata/Zones/Asia select Kolkata" | debconf-set-selections
 
 RUN set -eux; \
 	apt-get update; \
-	apt install software-properties-common -y && \
-	add-apt-repository ppa:ondrej/php && \
 	DEBIAN_FRONTEND=noninteractive apt-get install -y \
 	cowsay \
 	git \
 	gosu \
 	jq \
-	php7.4-cli \
-	php7.4-common \
-	php7.4-curl \
-	php7.4-json \
-	php7.4-mbstring \
-	php7.4-mysql \
-	php7.4-xml \
-	php7.4-zip \
-	php-xml \
-	python \
-	python-pip \
+	python3 \
+	python3-pip \
 	rsync \
 	sudo \
 	tree \
@@ -37,7 +25,7 @@ RUN set -eux; \
 	zip \
 	unzip \
 	wget ; \
-	pip install shyaml; \
+	pip3 install shyaml; \
 	rm -rf /var/lib/apt/lists/*; \
 	# verify that the binary works
 	gosu nobody true
