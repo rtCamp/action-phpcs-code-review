@@ -7,8 +7,10 @@ LABEL "com.github.actions.name"="PHPCS Code Review"
 LABEL "com.github.actions.description"="This will run phpcs on PRs"
 LABEL "org.opencontainers.image.source"="https://github.com/rtCamp/action-phpcs-code-review"
 
-RUN echo "tzdata tzdata/Areas select Asia" | debconf-set-selections && \
-echo "tzdata tzdata/Zones/Asia select Kolkata" | debconf-set-selections
+ENV TZ=Asia/Kolkata
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN set -eux; \
 	apt-get update; \
