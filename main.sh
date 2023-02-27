@@ -341,7 +341,7 @@ else
     'phpcs.xml.dist'
   )
 
-  phpcs_standard='WordPress,WordPress-Core,WordPress-Docs,WordPress-Extra'
+  phpcs_standard='WordPress'
 
   for file in "${phpcs_default_config_files[@]}"; do
     if [[ -f "$DOCKER_GITHUB_WORKSPACE/$file" ]]; then
