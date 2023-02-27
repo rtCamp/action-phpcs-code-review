@@ -7,7 +7,7 @@ LABEL "com.github.actions.description"="Run automated code review using PHPCS on
 LABEL "org.opencontainers.image.source"="https://github.com/rtCamp/action-phpcs-code-review"
 
 ARG VAULT_VERSION=1.12.3
-ARG DEFAULT_PHP_VERSION=8.0
+ARG DEFAULT_PHP_VERSION=8.1
 ARG PHP_BINARIES_TO_PREINSTALL='7.4 8.0 8.1 8.2'
 
 ENV DOCKER_USER=rtbot
