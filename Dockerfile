@@ -1,4 +1,5 @@
-FROM ubuntu:latest
+# ubuntu:latest as of 2023-02-27
+FROM ubuntu@sha256:9a0bdde4188b896a372804be2384015e90e3f84906b750c1a53539b585fbbe7f
 
 LABEL "com.github.actions.icon"="check-circle"
 LABEL "com.github.actions.color"="green"
