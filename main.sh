@@ -155,7 +155,6 @@ fi
 
 #######################################
 # Set the --local-git-repo
-# Default: ''
 # Options: STRING (Path to local git repo)
 #######################################
 local_git_repo="$DOCKER_GITHUB_WORKSPACE"
@@ -250,7 +249,7 @@ token="$GH_BOT_TOKEN"
 CMD+=( "--token=$token" )
 
 ################################################################################
-#                            PHPCS configuratio                                #
+#                            PHPCS configuration                               #
 ################################################################################
 
 #######################################
@@ -405,6 +404,17 @@ if [[ -n "$SKIP_FOLDERS" ]]; then
 fi
 
 CMD+=( "--phpcs-skip-folders=$phpcs_skip_folders" )
+
+#######################################
+# Set the --phpcs-sniffs-exclude
+# Default: ''
+# Options: STRING (Comma separated list of sniffs to exclude)
+#######################################
+if [[ -n "$PHPCS_SNIFFS_EXCLUDE" ]]; then
+  phpcs_sniffs_exclude="$PHPCS_SNIFFS_EXCLUDE"
+
+  CMD+=( "--phpcs-sniffs-exclude=$phpcs_sniffs_exclude" )
+fi
 
 #######################################
 # Set the --phpcs-skip-folders-in-repo-options-file
