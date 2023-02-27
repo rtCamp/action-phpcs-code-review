@@ -219,39 +219,24 @@ fi
 #######################################
 # Set the --repo-owner
 # Default: $GITHUB_REPOSITORY_OWNER
-# Options: STRING (Owner of the repo)
 #######################################
-if [[ -z "$REPO_OWNER" ]]; then
-  repo_owner="$GITHUB_REPOSITORY_OWNER"
-else
-  repo_owner="$REPO_OWNER"
-fi
+repo_owner="$GITHUB_REPOSITORY_OWNER"
 
 CMD+=( "--repo-owner=$repo_owner" )
 
 #######################################
 # Set the --repo-name
 # Default: $GITHUB_REPOSITORY_NAME
-# Options: STRING (Name of the repo)
 #######################################
-if [[ -z "$REPO_NAME" ]]; then
-  repo_name="$GITHUB_REPOSITORY_NAME"
-else
-  repo_name="$REPO_NAME"
-fi
+repo_name="$GITHUB_REPOSITORY_NAME"
 
 CMD+=( "--repo-name=$repo_name" )
 
 #######################################
 # Set the --commit
 # Default: $GITHUB_SHA
-# Options: STRING (Commit hash)
 #######################################
-if [[ -z "$COMMIT" ]]; then
-  commit="$COMMIT_ID"
-else
-  commit="$COMMIT"
-fi
+commit="$COMMIT_ID"
 
 CMD+=( "--commit=$commit" )
 
@@ -260,11 +245,7 @@ CMD+=( "--commit=$commit" )
 # Default: $GH_BOT_TOKEN
 # Options: STRING (GitHub token)
 #######################################
-if [[ -z "$TOKEN" ]]; then
-  token="$GH_BOT_TOKEN"
-else
-  token="$TOKEN"
-fi
+token="$GH_BOT_TOKEN"
 
 CMD+=( "--token=$token" )
 
@@ -317,6 +298,17 @@ else
   fi
 fi
 
+# Keep PHPCS_FILE_PATH for backward compatibility.
+if [[ -n "$PHPCS_FILE_PATH" ]]; then
+  if [[ -f "$DOCKER_GITHUB_WORKSPACE/$PHPCS_FILE_PATH" ]]; then
+    phpcs_path="$DOCKER_GITHUB_WORKSPACE/$PHPCS_FILE_PATH"
+  else
+    echo $( warning_message "$DOCKER_GITHUB_WORKSPACE/$PHPCS_FILE_PATH does not exist. Using default path...." )
+
+    phpcs_path="$VIP_GO_CI_TOOLS_DIR/phpcs/bin/phpcs"
+  fi
+fi
+
 CMD+=( "--phpcs-path=$phpcs_path" )
 
 #######################################
@@ -341,7 +333,12 @@ else
     'phpcs.xml.dist'
   )
 
-  phpcs_standard='WordPress'
+  # If someone has passed standards as arguments, use those.
+  if [[ -n "$1" ]]; then
+    phpcs_standard="$1"
+  else
+    phpcs_standard='WordPress'
+  fi
 
   for file in "${phpcs_default_config_files[@]}"; do
     if [[ -f "$DOCKER_GITHUB_WORKSPACE/$file" ]]; then
@@ -349,6 +346,15 @@ else
       break
     fi
   done
+fi
+
+# Keep PHPCS_STANDARD_FILE_NAME for backward compatibility
+if [[ -n "$PHPCS_STANDARD_FILE_NAME" ]]; then
+  if [[ -f "$DOCKER_GITHUB_WORKSPACE/$PHPCS_STANDARD_FILE_NAME" ]]; then
+    phpcs_standard="$DOCKER_GITHUB_WORKSPACE/$PHPCS_STANDARD_FILE_NAME"
+  else
+    echo $( warning_message "$DOCKER_GITHUB_WORKSPACE/$PHPCS_STANDARD_FILE_NAME does not exist. Using default standards...." )
+  fi
 fi
 
 CMD+=( "--phpcs-standard=$phpcs_standard" )
@@ -389,6 +395,15 @@ else
   phpcs_skip_folders="$PHPCS_SKIP_FOLDERS"
 fi
 
+# Keep SKIP_FOLDERS for backward compatibility
+if [[ -n "$SKIP_FOLDERS" ]]; then
+  if [[ -n "$phpcs_skip_folders" ]]; then
+    phpcs_skip_folders="$phpcs_skip_folders,"
+  fi
+
+  phpcs_skip_folders="$phpcs_skip_folders$SKIP_FOLDERS"
+fi
+
 CMD+=( "--phpcs-skip-folders=$phpcs_skip_folders" )
 
 #######################################
@@ -402,19 +417,6 @@ if [[ "$PHPCS_SKIP_FOLDERS_IN_REPO_OPTIONS_FILE" == "false" ]]; then
 fi
 
 CMD+=( "--phpcs-skip-folders-in-repo-options-file=$phpcs_skip_folders_in_repo_options_file" )
-
-#######################################
-# Set the --phpcs-file-extensions
-# Default: php
-# Options: STRING (Comma separated list of file extensions to check)
-#######################################
-if [[ -z "$PHPCS_FILE_EXTENSIONS" ]]; then
-  phpcs_file_extensions='php'
-else
-  phpcs_file_extensions="$PHPCS_FILE_EXTENSIONS"
-fi
-
-CMD+=( "--phpcs-file-extensions=$phpcs_file_extensions" )
 
 ################################################################################
 #                GitHub reviews & generic comments configuration               #
