@@ -121,24 +121,6 @@ fi
 CMD=( "--lint=false" "--phpcs=true" )
 
 #######################################
-# Set the --skip-execution
-# Default: false
-# Options: BOOLEAN
-#######################################
-if [[ "$SKIP_EXECUTION" == "true" ]]; then
-  CMD+=( "--skip-execution=true" )
-fi
-
-#######################################
-# Set the --enforce-https-urls
-# Default: true
-# Options: BOOLEAN
-#######################################
-if [[ "$ENFORCE_HTTPS_URLS" == "false" ]]; then
-  CMD+=( "--enforce-https-urls=false" )
-fi
-
-#######################################
 # Set the --skip-draft-prs
 # Default: false
 # Options: BOOLEAN
@@ -151,9 +133,7 @@ fi
 # Set the --local-git-repo
 # Options: STRING (Path to local git repo)
 #######################################
-local_git_repo="$DOCKER_GITHUB_WORKSPACE"
-
-CMD+=( "--local-git-repo=$local_git_repo" )
+CMD+=( "--local-git-repo=$DOCKER_GITHUB_WORKSPACE" )
 
 #######################################
 # Set the --name-to-use
@@ -161,42 +141,21 @@ CMD+=( "--local-git-repo=$local_git_repo" )
 # Options: STRING (Name to use for the bot)
 #######################################
 if [[ -n "$NAME_TO_USE" ]]; then
-  name_to_use="$NAME_TO_USE"
+  CMD+=( "--name-to-use=$NAME_TO_USE" )
 else
-  name_to_use="[action-phpcs-code-review](https://github.com/rtCamp/action-phpcs-code-review/)"
+  CMD+=( "--name-to-use=[action-phpcs-code-review](https://github.com/rtCamp/action-phpcs-code-review/)")
 fi
-
-CMD+=( "--name-to-use=$name_to_use" )
 
 ################################################################################
 #                      Environmental & repo configuration                      #
 ################################################################################
 
 #######################################
-# Set the --env-options
-# Default: ''
-# Options: STRING (Comma separated list of options=env-var)
-#######################################
-if [[ -n "$ENV_OPTIONS" ]]; then
-  CMD+=( "--env-options=$ENV_OPTIONS" )
-fi
-
-#######################################
 # Set the --repo-options
-# Default: false
-# Options: BOOLEAN
+# Default: If .vipgoci_options file is present in the repo, then true.
 #######################################
-if [[ "$REPO_OPTIONS" == "true" ]]; then
+if [[ -f "$DOCKER_GITHUB_WORKSPACE/.vipgoci_options" ]]; then
   CMD+=( "--repo-options=true" )
-
-  #######################################
-  # Set the --repo-options-allowed
-  # Default: All options are allowed.
-  # Options: STRING (Comma separated list of allowed options)
-  #######################################
-  if [[ -n "$REPO_OPTIONS_ALLOWED" ]]; then
-    CMD+=( "--repo-options-allowed=$REPO_OPTIONS_ALLOWED" )
-  fi
 fi
 
 ################################################################################
@@ -241,29 +200,20 @@ CMD+=( "--token=$token" )
 ################################################################################
 
 #######################################
-# Set the --phpcs
-# Default: true
-# Options: BOOLEAN
-#######################################
-if [[ "$PHPCS" == "false" ]]; then
-  CMD+=( "--phpcs=false" )
-fi
-
-#######################################
 # Set the --phpcs-php-path
 # Default: PHP in $PATH
 # Options: FILE (Path to php executable)
 #######################################
-if [[ -n "$PHPCS_PHP_PATH" ]]; then
-  if [[ -z "$( command -v php$PHPCS_PHP_PATH )" ]]; then
-    echo $( warning_message "php$PHPCS_PHP_PATH is not available. Using default php runtime...." )
+if [[ -n "$PHPCS_PHP_VERSION" ]]; then
+  if [[ -z "$( command -v php$PHPCS_PHP_VERSION )" ]]; then
+    echo $( warning_message "php$PHPCS_PHP_VERSION is not available. Using default php runtime...." )
 
     phpcs_php_path=$( command -v php )
   else
-    phpcs_php_path=$( command -v php$PHPCS_PHP_PATH )
+    phpcs_php_path=$( command -v php$PHPCS_PHP_VERSION )
   fi
 
-  CMD+=( "--phpcs-php-path=$phpcs_php_path" )
+  CMD+=( "--phpcs-php-path=$PHPCS_PHP_VERSION" )
 fi
 
 #######################################
@@ -349,25 +299,18 @@ CMD+=( "--phpcs-standard=$phpcs_standard" )
 # Default: PHPCSUtils
 # Options:String (Comma separated list of standards to ignore)
 #######################################
-if [[ -z "$PHPCS_STANDARDS_TO_IGNORE" ]]; then
-  phpcs_standards_to_ignore='PHPCSUtils'
+if [[ -n "$PHPCS_STANDARDS_TO_IGNORE" ]]; then
+  CMD+=( "--phpcs-standards-to-ignore=$PHPCS_STANDARDS_TO_IGNORE" )
 else
-  phpcs_standards_to_ignore="$PHPCS_STANDARDS_TO_IGNORE"
+  CMD+=( "--phpcs-standards-to-ignore=PHPCSUtils" )
 fi
-
-CMD+=( "--phpcs-standards-to-ignore=$phpcs_standards_to_ignore" )
 
 #######################################
 # Set the --phpcs-skip-scanning-via-labels-allowed
 # Default: true
 # Options: BOOLEAN
 #######################################
-phpcs_skip_scanning_via_labels_allowed='true'
-if [[ "$PHPCS_SKIP_SCANNING_VIA_LABELS_ALLOWED" == "false" ]]; then
-  phpcs_skip_scanning_via_labels_allowed='false'
-fi
-
-CMD+=( "--phpcs-skip-scanning-via-labels-allowed=$phpcs_skip_scanning_via_labels_allowed" )
+CMD+=( "--phpcs-skip-scanning-via-labels-allowed=true" )
 
 #######################################
 # Set the --phpcs-skip-folders
@@ -402,15 +345,11 @@ fi
 
 #######################################
 # Set the --phpcs-skip-folders-in-repo-options-file
-# Default: true
-# Options: BOOLEAN
+# Default: If .vipgoci_phpcs_skip_folders file exists in the repo, then true.
 #######################################
-phpcs_skip_folders_in_repo_options_file='true'
-if [[ "$PHPCS_SKIP_FOLDERS_IN_REPO_OPTIONS_FILE" == "false" ]]; then
-  phpcs_skip_folders_in_repo_options_file="false"
+if [[ -f "$DOCKER_GITHUB_WORKSPACE/.vipgoci_phpcs_skip_folders" ]]; then
+  CMD+=( "--phpcs-skip-folders-in-repo-options-file=true" )
 fi
-
-CMD+=( "--phpcs-skip-folders-in-repo-options-file=$phpcs_skip_folders_in_repo_options_file" )
 
 ################################################################################
 #                GitHub reviews & generic comments configuration               #
@@ -419,26 +358,8 @@ CMD+=( "--phpcs-skip-folders-in-repo-options-file=$phpcs_skip_folders_in_repo_op
 #######################################
 # Set the --report-no-issues-found
 # Default: false
-# Options: BOOLEAN
 #######################################
-report_no_issues_found='false'
-if [[ "$REPORT_NO_ISSUES_FOUND" == "true" ]]; then
-  report_no_issues_found='true'
-fi
-
-CMD+=( "--report-no-issues-found=$report_no_issues_found" )
-
-#######################################
-# Set the --review-comments-sort
-# Default: true
-# Options: BOOLEAN
-#######################################
-review_comments_sort='true'
-if [[ "$REVIEW_COMMENTS_SORT" == "false" ]]; then
-  review_comments_sort='false'
-fi
-
-CMD+=( "--review-comments-sort=$review_comments_sort" )
+CMD+=( "--report-no-issues-found=false" )
 
 #######################################
 # Set the --informational-msg
@@ -456,26 +377,14 @@ CMD+=( "--informational-msg=$informational_msg" )
 #######################################
 # Set the --scan-details-msg-include
 # Default: false
-# Options: BOOLEAN
 #######################################
-scan_details_msg_include='false'
-if [[ "$SCAN_DETAILS_MSG_INCLUDE" == "true" ]]; then
-  scan_details_msg_include='true'
-fi
-
-CMD+=( "--scan-details-msg-include=$scan_details_msg_include" )
+CMD+=( "--scan-details-msg-include=false" )
 
 #######################################
 # Set the --dismiss-stale-reviews
 # Default: true
-# Options: BOOLEAN
 #######################################
-dismiss_stale_reviews='true'
-if [[ "$DISMISS_STALE_REVIEWS " == "false" ]]; then
-  dismiss_stale_reviews='false'
-fi
-
-CMD+=( "--dismiss-stale-reviews=$dismiss_stale_reviews" )
+CMD+=( "--dismiss-stale-reviews=true" )
 
 ################################################################################
 #                Start Code Review and set GH build status                     #
