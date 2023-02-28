@@ -255,12 +255,12 @@ fi
 # Options: FILE (Path to php executable)
 #######################################
 if [[ -n "$PHPCS_PHP_PATH" ]]; then
-  if [[ -z "$( which php$PHPCS_PHP_PATH )" ]]; then
+  if [[ -z "$( command -v php$PHPCS_PHP_PATH )" ]]; then
     echo $( warning_message "php$PHPCS_PHP_PATH is not available. Using default php runtime...." )
 
-    phpcs_php_path=$( which php )
+    phpcs_php_path=$( command -v php )
   else
-    phpcs_php_path=$( which php$PHPCS_PHP_PATH )
+    phpcs_php_path=$( command -v php$PHPCS_PHP_PATH )
   fi
 
   CMD+=( "--phpcs-php-path=$phpcs_php_path" )
