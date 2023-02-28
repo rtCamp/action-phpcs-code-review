@@ -493,34 +493,37 @@ if [[ "$ENABLE_STATUS_CHECKS" == "true" ]]; then
 
   export VIPGOCI_EXIT_CODE="$?"
 
-  if [ "$VIPGOCI_EXIT_CODE" == "0" ] ; then
-    export BUILD_STATE="success"
-    export BUILD_DESCRIPTION="No PHPCS errors found"
-  elif [ "$VIPGOCI_EXIT_CODE" == "230" ] ; then
-    export BUILD_STATE="failure"
-    export BUILD_DESCRIPTION="Pull request not found for commit"
-  elif [ "$VIPGOCI_EXIT_CODE" == "248" ] ; then
-    export BUILD_STATE="failure"
-    export BUILD_DESCRIPTION="Commit not latest in PR"
-  elif [ "$VIPGOCI_EXIT_CODE" == "249" ] ; then
-    export BUILD_STATE="failure"
-    export BUILD_DESCRIPTION="Inspection timed out, PR may be too large"
-  elif [ "$VIPGOCI_EXIT_CODE" == "250" ] ; then
-    export BUILD_STATE="failure"
-    export BUILD_DESCRIPTION="Found PHPCS errors"
-  elif [ "$VIPGOCI_EXIT_CODE" == "251" ] ; then
-    export BUILD_STATE="failure"
-    export BUILD_DESCRIPTION="Action is not configured properly"
-  elif [ "$VIPGOCI_EXIT_CODE" == "252" ] ; then
-    export BUILD_STATE="failure"
-    export BUILD_DESCRIPTION="GitHub communication error. Please retry"
-  elif [ "$VIPGOCI_EXIT_CODE" == "253" ] ; then
-    export BUILD_STATE="failure"
-    export BUILD_DESCRIPTION="Wrong options passed to action"
-  else
-    export BUILD_STATE="failure"
-    export BUILD_DESCRIPTION="Unknown error"
-  fi
+  export BUILD_STATE="failure"
+  export BUILD_DESCRIPTION="Unknown error"
+
+  case "$VIPGOCI_EXIT_CODE" in
+    "0")
+      export BUILD_STATE="success"
+      export BUILD_DESCRIPTION="No PHPCS errors found"
+      ;;
+    "230")
+      export BUILD_DESCRIPTION="Pull request not found for commit"
+      ;;
+    "248")
+      export BUILD_DESCRIPTION="Commit not latest in PR"
+      ;;
+    "249")
+      export BUILD_DESCRIPTION="Inspection timed out, PR may be too large"
+      ;;
+    "250")
+      export BUILD_DESCRIPTION="Found PHPCS errors"
+      ;;
+    "251")
+      export BUILD_DESCRIPTION="Action is not configured properly"
+      ;;
+    "252")
+      export BUILD_DESCRIPTION="GitHub communication error. Please retry"
+      ;;
+    "253")
+      export BUILD_DESCRIPTION="Wrong options passed to action"
+      ;;
+  esac
+
 
   php $VIP_GO_CI_TOOLS_DIR/vip-go-ci/github-commit-status.php --repo-owner="$repo_owner" --repo-name="$repo_name" --github-token="$token" --github-commit="$commit" --build-context='PHPCS Code Review by rtCamp' --build-description="$BUILD_DESCRIPTION" --build-state="$BUILD_STATE"
 else
