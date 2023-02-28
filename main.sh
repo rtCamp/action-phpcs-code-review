@@ -63,6 +63,8 @@ fi
 
 if [[ -n "$VAULT_TOKEN" ]]; then
   GH_BOT_TOKEN=$(vault read -field=token secret/rtBot-token)
+
+    echo "::warning ::Support for HashiCorp Vault will be discontinued in the future. Please use GitHub Action Secrets to store the secrets. Refer https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository to know more about GitHub Action Secrets."
 fi
 
 # Remove trailing and leading whitespaces.
