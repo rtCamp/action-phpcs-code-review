@@ -65,23 +65,11 @@ if [[ -n "$VAULT_TOKEN" ]]; then
   GH_BOT_TOKEN=$(vault read -field=token secret/rtBot-token)
 fi
 
-if [[ -z "$GH_BOT_TOKEN" ]]; then
-  echo $( error_message "GH_BOT_TOKEN is not set." )
-
-  exit 1
-fi
-
 # Remove trailing and leading whitespaces.
 GH_BOT_TOKEN=${GH_BOT_TOKEN//[[:blank:]]/}
 
-IS_VALID_RES_CODE=$(wget --header "Accept: application/vnd.github+json" \
-  --header "Authorization: Bearer $GH_BOT_TOKEN" \
-  --header "X-GitHub-Api-Version: 2022-11-28" \
-  https://api.github.com/user -O /dev/null -q --server-response 2>&1 | awk '/^  HTTP/{print $2}'
-)
-
-if [[ "$IS_VALID_RES_CODE" != "200" ]]; then
-  echo $( error_message "GH_BOT_TOKEN is not valid." )
+if [[ -z "$GH_BOT_TOKEN" ]]; then
+  echo $( error_message "GH_BOT_TOKEN is not set." )
 
   exit 1
 fi
@@ -221,26 +209,13 @@ fi
 # Default: $VIP_GO_CI_TOOLS_DIR/phpcs/bin/phpcs
 # Options: FILE (Path to phpcs executable)
 #######################################
-if [[ -z "$PHPCS_PATH" ]]; then
-  phpcs_path="$VIP_GO_CI_TOOLS_DIR/phpcs/bin/phpcs"
-else
-  if [[ -f "$DOCKER_GITHUB_WORKSPACE/$PHPCS_PATH" ]]; then
-    phpcs_path="$DOCKER_GITHUB_WORKSPACE/$PHPCS_PATH"
-  else
-    echo $( warning_message "$DOCKER_GITHUB_WORKSPACE/$PHPCS_PATH does not exist. Using default path...." )
+phpcs_path="$VIP_GO_CI_TOOLS_DIR/phpcs/bin/phpcs"
 
-    phpcs_path="$VIP_GO_CI_TOOLS_DIR/phpcs/bin/phpcs"
-  fi
-fi
-
-# Keep PHPCS_FILE_PATH for backward compatibility.
 if [[ -n "$PHPCS_FILE_PATH" ]]; then
   if [[ -f "$DOCKER_GITHUB_WORKSPACE/$PHPCS_FILE_PATH" ]]; then
     phpcs_path="$DOCKER_GITHUB_WORKSPACE/$PHPCS_FILE_PATH"
   else
     echo $( warning_message "$DOCKER_GITHUB_WORKSPACE/$PHPCS_FILE_PATH does not exist. Using default path...." )
-
-    phpcs_path="$VIP_GO_CI_TOOLS_DIR/phpcs/bin/phpcs"
   fi
 fi
 
@@ -248,49 +223,41 @@ CMD+=( "--phpcs-path=$phpcs_path" )
 
 #######################################
 # Set the --phpcs-standard
-# Default: WordPress,WordPress-Core,WordPress-Docs,WordPress-Extra
+# Default: WordPress
 # Options: STRING (Comma separated list of standards to check against)
 #
 #  1. Either a comma separated list of standards to check against.
 #  2. Or a path to a custom ruleset.
 #######################################
-if [[ -n "$PHPCS_STANDARD" ]]; then
-    if [[ -f "$DOCKER_GITHUB_WORKSPACE/$PHPCS_STANDARD" ]]; then
-      phpcs_standard="$DOCKER_GITHUB_WORKSPACE/$PHPCS_STANDARD"
+phpcs_standard=''
+
+defaultFiles=(
+  '.phpcs.xml'
+  'phpcs.xml'
+  '.phpcs.xml.dist'
+  'phpcs.xml.dist'
+)
+
+phpcsfilefound=1
+
+for phpcsfile in "${defaultFiles[@]}"; do
+  if [[ -f "$DOCKER_GITHUB_WORKSPACE/$phpcsfile" ]]; then
+      phpcs_standard="--phpcs-standard=$DOCKER_GITHUB_WORKSPACE/$phpcsfile"
+      phpcsfilefound=0
+  fi
+done
+
+if [[ $phpcsfilefound -ne 0 ]]; then
+    if [[ -n "$1" ]]; then
+      phpcs_standard="--phpcs-standard=$1"
     else
-      phpcs_standard="$PHPCS_STANDARD"
+      phpcs_standard="--phpcs-standard=WordPress"
     fi
-else
-  phpcs_default_config_files=(
-    '.phpcs.xml'
-    'phpcs.xml'
-    '.phpcs.xml.dist'
-    'phpcs.xml.dist'
-  )
-
-  # If someone has passed standards as arguments, use those.
-  if [[ -n "$1" ]]; then
-    phpcs_standard="$1"
-  else
-    phpcs_standard='WordPress'
-  fi
-
-  for file in "${phpcs_default_config_files[@]}"; do
-    if [[ -f "$DOCKER_GITHUB_WORKSPACE/$file" ]]; then
-      phpcs_standard="$DOCKER_GITHUB_WORKSPACE/$file"
-      break
-    fi
-  done
 fi
 
-# Keep PHPCS_STANDARD_FILE_NAME for backward compatibility
-if [[ -n "$PHPCS_STANDARD_FILE_NAME" ]]; then
-  if [[ -f "$DOCKER_GITHUB_WORKSPACE/$PHPCS_STANDARD_FILE_NAME" ]]; then
-    phpcs_standard="$DOCKER_GITHUB_WORKSPACE/$PHPCS_STANDARD_FILE_NAME"
-  else
-    echo $( warning_message "$DOCKER_GITHUB_WORKSPACE/$PHPCS_STANDARD_FILE_NAME does not exist. Using default standards...." )
-  fi
-fi
+if [[ -n "$PHPCS_STANDARD_FILE_NAME" ]] && [[ -f "$DOCKER_GITHUB_WORKSPACE/$PHPCS_STANDARD_FILE_NAME" ]]; then
+  phpcs_standard="--phpcs-standard=$DOCKER_GITHUB_WORKSPACE/$PHPCS_STANDARD_FILE_NAME"
+fi;
 
 CMD+=( "--phpcs-standard=$phpcs_standard" )
 
@@ -314,25 +281,11 @@ CMD+=( "--phpcs-skip-scanning-via-labels-allowed=true" )
 
 #######################################
 # Set the --phpcs-skip-folders
-# Default: vendor,node_modules
 # Options: STRING (Comma separated list of folders to skip)
 #######################################
-if [[ -z "$PHPCS_SKIP_FOLDERS" ]]; then
-  phpcs_skip_folders='vendor,node_modules'
-else
-  phpcs_skip_folders="$PHPCS_SKIP_FOLDERS"
-fi
-
-# Keep SKIP_FOLDERS for backward compatibility
 if [[ -n "$SKIP_FOLDERS" ]]; then
-  if [[ -n "$phpcs_skip_folders" ]]; then
-    phpcs_skip_folders="$phpcs_skip_folders,"
-  fi
-
-  phpcs_skip_folders="$phpcs_skip_folders$SKIP_FOLDERS"
+  CMD+=( "--phpcs-skip-folders=$SKIP_FOLDERS" )
 fi
-
-CMD+=( "--phpcs-skip-folders=$phpcs_skip_folders" )
 
 #######################################
 # Set the --phpcs-sniffs-exclude
