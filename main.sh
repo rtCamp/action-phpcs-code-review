@@ -126,9 +126,7 @@ CMD=( "--lint=false" "--phpcs=true" )
 # Options: BOOLEAN
 #######################################
 if [[ "$SKIP_EXECUTION" == "true" ]]; then
-  skip_execution="true"
-
-  CMD+=( "--skip-execution=$skip_execution" )
+  CMD+=( "--skip-execution=true" )
 fi
 
 #######################################
@@ -137,9 +135,7 @@ fi
 # Options: BOOLEAN
 #######################################
 if [[ "$ENFORCE_HTTPS_URLS" == "false" ]]; then
-  enforce_https_urls="false"
-
-  CMD+=( "--enforce-https-urls=$enforce_https_urls" )
+  CMD+=( "--enforce-https-urls=false" )
 fi
 
 #######################################
@@ -148,9 +144,7 @@ fi
 # Options: BOOLEAN
 #######################################
 if [[ "$SKIP_DRAFT_PRS" == "true" ]]; then
-  skip_draft_prs="true"
-
-  CMD+=( "--skip-draft-prs=$skip_draft_prs" )
+  CMD+=( "--skip-draft-prs=true" )
 fi
 
 #######################################
@@ -184,9 +178,7 @@ CMD+=( "--name-to-use=$name_to_use" )
 # Options: STRING (Comma separated list of options=env-var)
 #######################################
 if [[ -n "$ENV_OPTIONS" ]]; then
-  env_options="$ENV_OPTIONS"
-
-  CMD+=( "--env-options=$env_options" )
+  CMD+=( "--env-options=$ENV_OPTIONS" )
 fi
 
 #######################################
@@ -195,9 +187,7 @@ fi
 # Options: BOOLEAN
 #######################################
 if [[ "$REPO_OPTIONS" == "true" ]]; then
-  repo_options="true"
-
-  CMD+=( "--repo-options=$repo_options" )
+  CMD+=( "--repo-options=true" )
 
   #######################################
   # Set the --repo-options-allowed
@@ -205,9 +195,7 @@ if [[ "$REPO_OPTIONS" == "true" ]]; then
   # Options: STRING (Comma separated list of allowed options)
   #######################################
   if [[ -n "$REPO_OPTIONS_ALLOWED" ]]; then
-    repo_options_allowed="$REPO_OPTIONS_ALLOWED"
-
-    CMD+=( "--repo-options-allowed=$repo_options_allowed" )
+    CMD+=( "--repo-options-allowed=$REPO_OPTIONS_ALLOWED" )
   fi
 fi
 
@@ -258,9 +246,7 @@ CMD+=( "--token=$token" )
 # Options: BOOLEAN
 #######################################
 if [[ "$PHPCS" == "false" ]]; then
-  phpcs="false"
-
-  CMD+=( "--phpcs=$phpcs" )
+  CMD+=( "--phpcs=false" )
 fi
 
 #######################################
@@ -411,9 +397,7 @@ CMD+=( "--phpcs-skip-folders=$phpcs_skip_folders" )
 # Options: STRING (Comma separated list of sniffs to exclude)
 #######################################
 if [[ -n "$PHPCS_SNIFFS_EXCLUDE" ]]; then
-  phpcs_sniffs_exclude="$PHPCS_SNIFFS_EXCLUDE"
-
-  CMD+=( "--phpcs-sniffs-exclude=$phpcs_sniffs_exclude" )
+  CMD+=( "--phpcs-sniffs-exclude=$PHPCS_SNIFFS_EXCLUDE" )
 fi
 
 #######################################
