@@ -163,7 +163,7 @@ CMD+=( "--local-git-repo=$local_git_repo" )
 if [[ -n "$NAME_TO_USE" ]]; then
   name_to_use="$NAME_TO_USE"
 else
-  name_to_use="[rtBot](https://github.com/rtBot)"
+  name_to_use="[action-phpcs-code-review](https://github.com/rtCamp/action-phpcs-code-review/)"
 fi
 
 CMD+=( "--name-to-use=$name_to_use" )
