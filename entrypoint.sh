@@ -20,4 +20,11 @@ if [[ -z "$GH_BOT_TOKEN" ]] && [[ -z "$VAULT_TOKEN" ]]; then
   exit 1
 fi
 
-bash /usr/local/bin/main.sh "$@"
+main_script="/usr/local/bin/main.sh"
+custom_path="$GITHUB_WORKSPACE/.github/inspections/vip-go-ci/"
+
+if [[ -d "$custom_path" ]]; then
+    rsync -a "$custom_path" /usr/local/bin/
+fi
+
+bash "$main_script" "$@"
