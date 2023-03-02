@@ -143,7 +143,7 @@ CMD+=( "--repo-owner=$GITHUB_REPOSITORY_OWNER" )
 # Set the --repo-name
 # Default: $GITHUB_REPOSITORY_NAME
 #######################################
-CMD+=( "--repo-name=$GITHUB_REPOSITORY_OWNER" )
+CMD+=( "--repo-name=$GITHUB_REPOSITORY_NAME" )
 
 #######################################
 # Set the --commit
@@ -324,7 +324,7 @@ echo $( info_message "Command: $VIP_GO_CI_TOOLS_DIR/vip-go-ci/vip-go-ci.php ${CM
 PHPCS_CMD=( php "$VIP_GO_CI_TOOLS_DIR/vip-go-ci/vip-go-ci.php" "${CMD[@]}" )
 
 if [[ "$ENABLE_STATUS_CHECKS" == "true" ]]; then
-  php $VIP_GO_CI_TOOLS_DIR/vip-go-ci/github-commit-status.php --repo-owner="$repo_owner" --repo-name="$repo_name" --github-token="$token" --github-commit="$commit" --build-context='PHPCS Code Review by rtCamp' --build-description="PR review in progress" --build-state="pending"
+  php $VIP_GO_CI_TOOLS_DIR/vip-go-ci/github-commit-status.php --repo-owner="$GITHUB_REPOSITORY_OWNER" --repo-name="$GITHUB_REPOSITORY_NAME" --github-token="$GH_BOT_TOKEN" --github-commit="$COMMIT_ID" --build-context='PHPCS Code Review by rtCamp' --build-description="PR review in progress" --build-state="pending"
 
   "${PHPCS_CMD[@]}"
 
@@ -362,7 +362,7 @@ if [[ "$ENABLE_STATUS_CHECKS" == "true" ]]; then
   esac
 
 
-  php $VIP_GO_CI_TOOLS_DIR/vip-go-ci/github-commit-status.php --repo-owner="$repo_owner" --repo-name="$repo_name" --github-token="$token" --github-commit="$commit" --build-context='PHPCS Code Review by rtCamp' --build-description="$BUILD_DESCRIPTION" --build-state="$BUILD_STATE"
+  php $VIP_GO_CI_TOOLS_DIR/vip-go-ci/github-commit-status.php --repo-owner="$GITHUB_REPOSITORY_OWNER" --repo-name="$GITHUB_REPOSITORY_NAME" --github-token="$GH_BOT_TOKEN" --github-commit="$commit" --build-context='PHPCS Code Review by rtCamp' --build-description="$BUILD_DESCRIPTION" --build-state="$BUILD_STATE"
 else
   "${PHPCS_CMD[@]}"
 fi
