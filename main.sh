@@ -176,7 +176,7 @@ if [[ -n "$PHPCS_PHP_VERSION" ]]; then
     phpcs_php_path=$( command -v php$PHPCS_PHP_VERSION )
   fi
 
-  CMD+=( "--phpcs-php-path=$PHPCS_PHP_VERSION" )
+  CMD+=( "--phpcs-php-path=$phpcs_php_path" )
 fi
 
 #######################################
