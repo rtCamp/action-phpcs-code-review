@@ -71,6 +71,8 @@ Variable       | Default | Possible  Values            | Purpose
 `PHP_LINT`     | `true`  | `true` or `false`, *case insensitive* (Any unknown value is the same as passing `true`)  | If the default automatic linting of all PHP files should be deactivated, then this env variable should be set to `false`.
 `PHPCS_STANDARD_FILE_NAME`     |  -  | phpcs ruleset file from project root dir. i.e phpcs.ruleset.xml | PHP_CodeSniffer ruleset filename. Default filename available: '.phpcs.xml', 'phpcs.xml', '.phpcs.xml.dist', 'phpcs.xml.dist'
 `PHPCS_FILE_PATH`     |  -  | Custom phpcs execution file path from project. i.e Composer phpcs path. 'vendor/bin/phpcs' | This is useful in case of needed to use any custom coding standards apart from pre-defined in VIP/WP Coding Standards. [Wiki](https://github.com/rtCamp/action-phpcs-code-review/wiki/How-to%3F#use-custom-coding-standards)
+`SKIP_DRAFT_PRS`     |  false  | `true`/`false` | Set it to true to skip PHPCS checks on draft PRs.
+`PHPCS_PHP_VERSION`  |  8.1  | 7.4, 8.0, 8.1, or 8.2 | To use a different PHP interpreter than the system default.
 
 ## Modifying the bot’s behavior
 
