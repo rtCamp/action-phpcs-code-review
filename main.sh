@@ -186,7 +186,8 @@ fi
 #######################################
 phpcs_path="$VIP_GO_CI_TOOLS_DIR/phpcs/bin/phpcs"
 
-if [[ -n "$PHPCS_FILE_PATH" ]] && [[ -f "$DOCKER_GITHUB_WORKSPACE/$PHPCS_FILE_PATH" ]]; then
+if [[ -n "$PHPCS_FILE_PATH" ]]; then
+  if [[ -f "$DOCKER_GITHUB_WORKSPACE/$PHPCS_FILE_PATH" ]]; then
     phpcs_path="$DOCKER_GITHUB_WORKSPACE/$PHPCS_FILE_PATH"
   else
     echo $( warning_message "$DOCKER_GITHUB_WORKSPACE/$PHPCS_FILE_PATH does not exist. Using default path...." )
