@@ -25,7 +25,7 @@ jobs:
     name: Run PHPCS inspection
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         ref: ${{ github.event.pull_request.head.sha }}
     - name: Run PHPCS inspection
