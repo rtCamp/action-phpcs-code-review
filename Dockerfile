@@ -15,10 +15,6 @@ ENV DOCKER_USER=rtbot
 ENV ACTION_WORKDIR=/home/$DOCKER_USER
 ENV DEBIAN_FRONTEND=noninteractive
 
-COPY entrypoint.sh main.sh /usr/local/bin/
-
-RUN chmod +x /usr/local/bin/entrypoint.sh /usr/local/bin/main.sh
-
 RUN useradd -m -s /bin/bash $DOCKER_USER \
   && mkdir -p $ACTION_WORKDIR \
   && chown -R $DOCKER_USER $ACTION_WORKDIR
@@ -60,6 +56,10 @@ RUN set -ex \
     done \
   && php -v \
   && vault -v;
+
+COPY entrypoint.sh main.sh /usr/local/bin/
+
+RUN chmod +x /usr/local/bin/entrypoint.sh /usr/local/bin/main.sh
 
 USER $DOCKER_USER
 
