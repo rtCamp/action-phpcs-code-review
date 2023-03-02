@@ -1,34 +1,15 @@
 #!/usr/bin/env bash
 
-#######################################
-# Echo error message.
-# Arguments:
-#   Message
-# Outputs:
-#   Writes ERROR: message to stdout.
-#######################################
+## Logging functions
+# Arguments: Message.
 error_message() {
   echo -en "\033[31mERROR\033[0m: $1"
 }
 
-#######################################
-# Echo warning message.
-# Arguments:
-#   Message.
-# Outputs:
-#   Writes WARNING: message to stdout.
-#######################################
 warning_message() {
   echo -en "\033[33mWARNING\033[0m: $1"
 }
 
-#######################################
-# Echo info message.
-# Arguments:
-#   Message.
-# Outputs:
-#   Writes INFO: message to stdout.
-#######################################
 info_message() {
   echo -en "\033[32mINFO\033[0m: $1"
 }
@@ -67,7 +48,7 @@ if [[ -n "$VAULT_TOKEN" ]]; then
     echo "::warning ::Support for HashiCorp Vault will be discontinued in the future. Please use GitHub Action Secrets to store the secrets. Refer https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository to know more about GitHub Action Secrets."
 fi
 
-# Remove trailing and leading whitespaces.
+# Remove trailing and leading whitespaces. At times copying token can give leading space.
 GH_BOT_TOKEN=${GH_BOT_TOKEN//[[:blank:]]/}
 
 if [[ -z "$GH_BOT_TOKEN" ]]; then
@@ -79,7 +60,7 @@ fi
 # VIP Go CI tools directory.
 VIP_GO_CI_TOOLS_DIR="$ACTION_WORKDIR/vip-go-ci-tools"
 
-# Setup GiHub workspace inside Docker container.
+# Setup GitHub workspace inside Docker container.
 DOCKER_GITHUB_WORKSPACE="$ACTION_WORKDIR/workspace"
 
 # Sync GitHub workspace to Docker GitHub workspace.
@@ -127,7 +108,7 @@ CMD+=( "--local-git-repo=$DOCKER_GITHUB_WORKSPACE" )
 
 #######################################
 # Set the --name-to-use
-# Default: 'rtBot'
+# Default: 'action-phpcs-code-review'
 # Options: STRING (Name to use for the bot)
 #######################################
 if [[ -n "$NAME_TO_USE" ]]; then
@@ -156,34 +137,26 @@ fi
 # Set the --repo-owner
 # Default: $GITHUB_REPOSITORY_OWNER
 #######################################
-repo_owner="$GITHUB_REPOSITORY_OWNER"
-
-CMD+=( "--repo-owner=$repo_owner" )
+CMD+=( "--repo-owner=$GITHUB_REPOSITORY_OWNER" )
 
 #######################################
 # Set the --repo-name
 # Default: $GITHUB_REPOSITORY_NAME
 #######################################
-repo_name="$GITHUB_REPOSITORY_NAME"
-
-CMD+=( "--repo-name=$repo_name" )
+CMD+=( "--repo-name=$GITHUB_REPOSITORY_OWNER" )
 
 #######################################
 # Set the --commit
 # Default: $GITHUB_SHA
 #######################################
-commit="$COMMIT_ID"
-
-CMD+=( "--commit=$commit" )
+CMD+=( "--commit=$COMMIT_ID" )
 
 #######################################
 # Set the --token
 # Default: $GH_BOT_TOKEN
 # Options: STRING (GitHub token)
 #######################################
-token="$GH_BOT_TOKEN"
-
-CMD+=( "--token=$token" )
+CMD+=( "--token=$GH_BOT_TOKEN" )
 
 ################################################################################
 #                            PHPCS configuration                               #
@@ -213,8 +186,7 @@ fi
 #######################################
 phpcs_path="$VIP_GO_CI_TOOLS_DIR/phpcs/bin/phpcs"
 
-if [[ -n "$PHPCS_FILE_PATH" ]]; then
-  if [[ -f "$DOCKER_GITHUB_WORKSPACE/$PHPCS_FILE_PATH" ]]; then
+if [[ -n "$PHPCS_FILE_PATH" ]] && [[ -f "$DOCKER_GITHUB_WORKSPACE/$PHPCS_FILE_PATH" ]]; then
     phpcs_path="$DOCKER_GITHUB_WORKSPACE/$PHPCS_FILE_PATH"
   else
     echo $( warning_message "$DOCKER_GITHUB_WORKSPACE/$PHPCS_FILE_PATH does not exist. Using default path...." )
