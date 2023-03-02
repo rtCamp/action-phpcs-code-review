@@ -1,62 +1,72 @@
-# ubuntu:latest at 2020-05-12T09:35:28IST
-FROM ubuntu@sha256:3235326357dfb65f1781dbc4df3b834546d8bf914e82cce58e6e6b676e23ce8f
+# ubuntu:latest as of 2023-02-27
+FROM ubuntu@sha256:9a0bdde4188b896a372804be2384015e90e3f84906b750c1a53539b585fbbe7f
 
 LABEL "com.github.actions.icon"="check-circle"
 LABEL "com.github.actions.color"="green"
 LABEL "com.github.actions.name"="PHPCS Code Review"
-LABEL "com.github.actions.description"="This will run phpcs on PRs"
+LABEL "com.github.actions.description"="Run automated code review using PHPCS on your pull requests."
 LABEL "org.opencontainers.image.source"="https://github.com/rtCamp/action-phpcs-code-review"
 
-RUN echo "tzdata tzdata/Areas select Asia" | debconf-set-selections && \
-echo "tzdata tzdata/Zones/Asia select Kolkata" | debconf-set-selections
+ARG VAULT_VERSION=1.12.3
+ARG DEFAULT_PHP_VERSION=8.1
+ARG PHP_BINARIES_TO_PREINSTALL='7.4 8.0 8.1 8.2'
 
-RUN set -eux; \
-	apt-get update; \
-	apt install software-properties-common -y && \
-	add-apt-repository ppa:ondrej/php && \
-	DEBIAN_FRONTEND=noninteractive apt-get install -y \
-	cowsay \
-	git \
-	gosu \
-	jq \
-	php7.4-cli \
-	php7.4-common \
-	php7.4-curl \
-	php7.4-json \
-	php7.4-mbstring \
-	php7.4-mysql \
-	php7.4-xml \
-	php7.4-zip \
-	php-xml \
-	python \
-	python-pip \
-	rsync \
-	sudo \
-	tree \
-	vim \
-	zip \
-	unzip \
-	wget ; \
-	pip install shyaml; \
-	rm -rf /var/lib/apt/lists/*; \
-	# verify that the binary works
-	gosu nobody true
+ENV DOCKER_USER=rtbot
+ENV ACTION_WORKDIR=/home/$DOCKER_USER
+ENV DEBIAN_FRONTEND=noninteractive
 
-RUN useradd -m -s /bin/bash rtbot
+RUN useradd -m -s /bin/bash $DOCKER_USER \
+  && mkdir -p $ACTION_WORKDIR \
+  && chown -R $DOCKER_USER $ACTION_WORKDIR
 
-RUN wget https://raw.githubusercontent.com/Automattic/vip-go-ci/main/tools-init.sh -O tools-init.sh && \
-	bash tools-init.sh && \
-	rm -f tools-init.sh
-
-ENV VAULT_VERSION 1.4.3
-
-# Setup Vault
-RUN wget https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_amd64.zip && \
-        unzip vault_${VAULT_VERSION}_linux_amd64.zip && \
-        rm vault_${VAULT_VERSION}_linux_amd64.zip && \
-        mv vault /usr/local/bin/vault
+RUN set -ex \
+  && savedAptMark="$(apt-mark showmanual)" \
+  && apt-mark auto '.*' > /dev/null \
+  && apt-get update && apt-get install -y --no-install-recommends git ca-certificates wget rsync gnupg jq software-properties-common unzip \
+  && LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php \
+  && apt-get update \
+  && for v in $PHP_BINARIES_TO_PREINSTALL; do \
+      apt-get install -y --no-install-recommends \
+      php"$v" \
+      php"$v"-curl \
+      php"$v"-tokenizer \
+      php"$v"-simplexml \
+      php"$v"-xmlwriter; \
+    done \
+  && update-alternatives --set php /usr/bin/php${DEFAULT_PHP_VERSION} \
+  && wget https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_amd64.zip \
+  && unzip vault_${VAULT_VERSION}_linux_amd64.zip \
+  && mv vault /usr/local/bin/vault \
+  # cleanup
+  && rm -f vault_${VAULT_VERSION}_linux_amd64.zip \
+  && apt-get remove software-properties-common unzip -y \
+  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+  && { [ -z "$savedAptMark" ] || apt-mark manual $savedAptMark > /dev/null; } \
+  && find /usr/local -type f -executable -exec ldd '{}' ';' \
+      | awk '/=>/ { print $(NF-1) }' \
+      | sort -u \
+      | xargs -r dpkg-query --search \
+      | cut -d: -f1 \
+      | sort -u \
+      | xargs -r apt-mark manual \
+  && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
+  # smoke test
+  && for v in $PHP_BINARIES_TO_PREINSTALL; do \
+      php"$v" -v; \
+    done \
+  && php -v \
+  && vault -v;
 
 COPY entrypoint.sh main.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/*.sh
+
+RUN chmod +x /usr/local/bin/entrypoint.sh /usr/local/bin/main.sh
+
+USER $DOCKER_USER
+
+WORKDIR $ACTION_WORKDIR
+
+RUN wget https://raw.githubusercontent.com/Automattic/vip-go-ci/latest/tools-init.sh -O tools-init.sh \
+  && bash tools-init.sh \
+  && rm -f tools-init.sh
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
