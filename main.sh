@@ -217,21 +217,21 @@ phpcsfilefound=1
 
 for phpcsfile in "${defaultFiles[@]}"; do
   if [[ -f "$DOCKER_GITHUB_WORKSPACE/$phpcsfile" ]]; then
-      phpcs_standard="--phpcs-standard=$DOCKER_GITHUB_WORKSPACE/$phpcsfile"
+      phpcs_standard="$DOCKER_GITHUB_WORKSPACE/$phpcsfile"
       phpcsfilefound=0
   fi
 done
 
 if [[ $phpcsfilefound -ne 0 ]]; then
     if [[ -n "$1" ]]; then
-      phpcs_standard="--phpcs-standard=$1"
+      phpcs_standard="$1"
     else
-      phpcs_standard="--phpcs-standard=WordPress"
+      phpcs_standard="WordPress"
     fi
 fi
 
 if [[ -n "$PHPCS_STANDARD_FILE_NAME" ]] && [[ -f "$DOCKER_GITHUB_WORKSPACE/$PHPCS_STANDARD_FILE_NAME" ]]; then
-  phpcs_standard="--phpcs-standard=$DOCKER_GITHUB_WORKSPACE/$PHPCS_STANDARD_FILE_NAME"
+  phpcs_standard="$DOCKER_GITHUB_WORKSPACE/$PHPCS_STANDARD_FILE_NAME"
 fi;
 
 CMD+=( "--phpcs-standard=$phpcs_standard" )
