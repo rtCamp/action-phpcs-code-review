@@ -362,7 +362,7 @@ if [[ "$ENABLE_STATUS_CHECKS" == "true" ]]; then
   esac
 
 
-  php $VIP_GO_CI_TOOLS_DIR/vip-go-ci/github-commit-status.php --repo-owner="$GITHUB_REPOSITORY_OWNER" --repo-name="$GITHUB_REPOSITORY_NAME" --github-token="$GH_BOT_TOKEN" --github-commit="$commit" --build-context='PHPCS Code Review by rtCamp' --build-description="$BUILD_DESCRIPTION" --build-state="$BUILD_STATE"
+  php $VIP_GO_CI_TOOLS_DIR/vip-go-ci/github-commit-status.php --repo-owner="$GITHUB_REPOSITORY_OWNER" --repo-name="$GITHUB_REPOSITORY_NAME" --github-token="$GH_BOT_TOKEN" --github-commit="$COMMIT_ID" --build-context='PHPCS Code Review by rtCamp' --build-description="$BUILD_DESCRIPTION" --build-state="$BUILD_STATE"
 else
   "${PHPCS_CMD[@]}"
 fi
