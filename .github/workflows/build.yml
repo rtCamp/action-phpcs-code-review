@@ -1,0 +1,33 @@
+on:
+  push:
+    tags:        
+      - '*'
+
+name: Build Images and Release
+jobs:
+  build-images-and-release:
+    name: Build Images
+    runs-on: ubuntu-latest
+    steps:
+    - name: set lower case owner name
+      run: |
+        echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
+      env:
+        OWNER: '${{ github.repository }}'
+
+    - uses: actions/checkout@main
+    - name: Build PHPCS image
+      run: |
+        docker build -t ghcr.io/${{ env.OWNER_LC }}/action-phpcs-code-review:${{ github.ref_name }} .
+
+    - name: Login to ghcr.io
+      run: |
+        docker login ghcr.io -u ${{ github.repository_owner }} --password=${{ secrets.GH_TOKEN }}
+
+    - name: Push to ghcr.io
+      run: |
+        docker push ghcr.io/${{ env.OWNER_LC }}/action-phpcs-code-review:${{ github.ref_name }}
+
+    - name: Cleanup
+      if: ${{ always() }}
+      uses: rtCamp/action-cleanup@master
