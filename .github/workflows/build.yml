@@ -6,7 +6,7 @@ on:
 name: Build Images and Release
 jobs:
   build-images-and-release:
-    name: Build Images
+    name: Build Images and Push
     runs-on: ubuntu-latest
     steps:
     - name: set lower case owner name
