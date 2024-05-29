@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:24.04
 
 LABEL "com.github.actions.icon"="check-circle"
 LABEL "com.github.actions.color"="green"
