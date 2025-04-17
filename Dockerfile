@@ -5,7 +5,6 @@ LABEL "com.github.actions.name"="PHPCS Code Review"
 LABEL "com.github.actions.description"="Run automated code review using PHPCS on your pull requests."
 LABEL "org.opencontainers.image.source"="https://github.com/rtCamp/action-phpcs-code-review"
 
-ARG VAULT_VERSION=1.12.3
 ARG DEFAULT_PHP_VERSION=8.3
 ARG PHP_BINARIES_TO_PREINSTALL='7.4 8.0 8.1 8.2 8.3'
 
@@ -32,9 +31,6 @@ RUN set -ex \
       php"$v"-xmlwriter; \
     done \
   && update-alternatives --set php /usr/bin/php${DEFAULT_PHP_VERSION} \
-  && wget https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_amd64.zip \
-  && unzip vault_${VAULT_VERSION}_linux_amd64.zip \
-  && mv vault /usr/local/bin/vault \
   # cleanup
   && rm -f vault_${VAULT_VERSION}_linux_amd64.zip \
   && apt-get remove software-properties-common unzip -y \
