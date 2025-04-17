@@ -32,7 +32,6 @@ RUN set -ex \
     done \
   && update-alternatives --set php /usr/bin/php${DEFAULT_PHP_VERSION} \
   # cleanup
-  && rm -f vault_${VAULT_VERSION}_linux_amd64.zip \
   && apt-get remove software-properties-common unzip -y \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
   && { [ -z "$savedAptMark" ] || apt-mark manual $savedAptMark > /dev/null; } \
@@ -48,8 +47,7 @@ RUN set -ex \
   && for v in $PHP_BINARIES_TO_PREINSTALL; do \
       php"$v" -v; \
     done \
-  && php -v \
-  && vault -v;
+  && php -v;
 
 COPY entrypoint.sh main.sh /usr/local/bin/
 
