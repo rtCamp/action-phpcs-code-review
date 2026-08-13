@@ -7,7 +7,7 @@ This action is a part of [GitHub Actions Library](https://github.com/rtCamp/gith
 
 A [GitHub Action](https://github.com/features/actions) to perform automated [pull request review](https://help.github.com/en/articles/about-pull-request-reviews). It is based on https://github.com/Automattic/vip-go-ci/ but can be used for any WordPress or even PHP projects.
 
-The code review is performed using [PHPCS](https://github.com/squizlabs/PHP_CodeSniffer).
+The code review is performed using [PHPCS](https://github.com/PHPCSStandards/PHP_CodeSniffer).
 
 Please note that, this action performs pull request review *only*. If you have an existing project, and you want entire project's code to be reviwed, you may need to do it manually.
 
