@@ -19,8 +19,12 @@ RUN useradd -m -s /bin/bash $DOCKER_USER \
 RUN set -ex \
   && savedAptMark="$(apt-mark showmanual)" \
   && apt-mark auto '.*' > /dev/null \
-  && apt-get update && apt-get install -y --no-install-recommends git ca-certificates wget rsync gnupg jq software-properties-common unzip \
-  && LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php \
+  && apt-get update && apt-get install -y --no-install-recommends git ca-certificates wget rsync gnupg jq unzip \
+  # PHP packages from packages.sury.org (ppa:ondrej/php has no builds for Ubuntu 26.04+)
+  && wget -qO /tmp/debsuryorg-archive-keyring.deb https://packages.sury.org/debsuryorg-archive-keyring.deb \
+  && dpkg -i /tmp/debsuryorg-archive-keyring.deb \
+  && . /etc/os-release \
+  && echo "deb [signed-by=/usr/share/keyrings/debsuryorg-archive-keyring.gpg] https://packages.sury.org/php/ $VERSION_CODENAME main" > /etc/apt/sources.list.d/php.list \
   && apt-get update \
   && for v in $PHP_BINARIES_TO_PREINSTALL; do \
       apt-get install -y --no-install-recommends \
@@ -32,7 +36,7 @@ RUN set -ex \
     done \
   && update-alternatives --set php /usr/bin/php${DEFAULT_PHP_VERSION} \
   # cleanup
-  && apt-get remove software-properties-common unzip -y \
+  && apt-get remove unzip -y \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
   && { [ -z "$savedAptMark" ] || apt-mark manual $savedAptMark > /dev/null; } \
   && find /usr/local -type f -executable -exec ldd '{}' ';' \
