@@ -3,6 +3,8 @@ on:
     tags:
       - "v*"
 name: Release Creation
+permissions:
+  contents: write
 jobs:
   release:
     name: Create a Draft Release on GitHub
@@ -11,7 +13,7 @@ jobs:
     - name: Get Release Name
       id: get_release_name
       run: |
-        echo "release_name=${GITHUB_REF_NAME/v/Version }" >> $GITHUB_ENV
+        echo "release_name=${GITHUB_REF_NAME/v/Version }" >> $GITHUB_OUTPUT
     - name: Publish a Draft Release
       uses: softprops/action-gh-release@v2
       with:
