@@ -1,4 +1,4 @@
-FROM ubuntu:24.04
+FROM ubuntu:26.04
 LABEL "com.github.actions.icon"="check-circle"
 LABEL "com.github.actions.color"="green"
 LABEL "com.github.actions.name"="PHPCS Code Review"
